@@ -2,8 +2,8 @@ import * as async from 'async';
 import * as bcrypt from 'bcryptjs';
 import * as jwt from 'jsonwebtoken';
 
-const SALTROUNDS = +process.env.saltRounds || 10;
-const SECRET = process.env.JWTSecret || 'VerySecure';
+const SALTROUNDS = +process.env.SALTROUNDS || 10;
+const SECRET = process.env.JWTSECRET || 'VerySecure';
 
 class helper {
   static hashPassword(string: string, cb: (err: Error, hash: string) => void) {
@@ -45,3 +45,4 @@ class helper {
 }
 
 export { helper };
+
