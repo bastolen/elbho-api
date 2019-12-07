@@ -1,3 +1,4 @@
+import { AdvisorController } from './advisor.controller';
 import { AuthController } from './auth.controller';
 
-export { AuthController };
+export { AuthController, AdvisorController };

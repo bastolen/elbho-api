@@ -1,8 +1,17 @@
+import { AuthService } from '../service';
+
 class AuthController {
-  static login(req, res, next) {
-    console.log('auth.controller.ts:3 | : ', req);
-    console.log('auth.controller.ts:4 | : ', res);
-    console.log('auth.controller.ts:5 | : ', next);
+  static login(req, res) {
+    const { email, password } = req.body;
+    if (!email || !password) {
+      return res.sendStatus(400);
+    }
+    AuthService.login(email, password, (err, result) => {
+      if (err || !result) {
+        return res.sendStatus(500);
+      }
+      return res.send({ token: result });
+    });
   }
 }
 

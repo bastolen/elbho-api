@@ -14,14 +14,14 @@ const authMiddleWare = (req, res, next) => {
     helper.validateToken(authorization.split(' ')[1], (err, decoded) => {
       if (err) {
         return res
-          .status(401)
+          .status(403)
           .send({ success: false, message: 'Unauthorized', error: err });
       }
-      req.user = decoded;
+      req.advisor = decoded;
       next();
     });
   } else {
-    return res.status(401).send({ success: false, message: 'Unauthorized' });
+    return res.status(403).send({ success: false, message: 'Unauthorized' });
   }
 };
 

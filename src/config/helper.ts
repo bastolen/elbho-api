@@ -28,14 +28,11 @@ class helper {
     bcrypt.compare(password, hash, cb);
   }
 
-  static generateToken(
-    obj: object,
-    cb: (err: Error, res: { token: string; expires: number }) => void
-  ) {
-    jwt.sign(obj, SECRET, { expiresIn: '1h' }, (err, token) => {
+  static generateToken(obj: object, cb: (err: Error, token: string) => void) {
+    jwt.sign(obj, SECRET, (err, token) => {
       const date = new Date();
       date.setHours(date.getHours() + 1);
-      cb(err, { token, expires: date.getTime() });
+      cb(err, token);
     });
   }
 
@@ -45,4 +42,3 @@ class helper {
 }
 
 export { helper };
-

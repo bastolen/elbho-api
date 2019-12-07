@@ -44,6 +44,9 @@
     "prettier": "^1.19.1",
     "ts-node": "^8.5.2"
   },
+  "prettier": {
+    "singleQuote": true
+  },
   "nodemonConfig": {
     "ignore": [
       "**/*.test.ts",

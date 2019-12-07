@@ -21,10 +21,10 @@ app.use(bodyParser.json());
 app.post('/login', AuthController.login);
 
 // MIDDLEWARE FOR AUTH
-app.use(authMiddleWare);
-app.use('/advisor', advisor);
-app.use('/availability', availability);
-app.use('/invoice', invoice);
+app.use('/auth', authMiddleWare);
+app.use('/auth/advisor', advisor);
+app.use('/auth/availability', availability);
+app.use('/auth/invoice', invoice);
 
 // ROUTE NOT FOUND
 app.use('*', (req, res) => {
