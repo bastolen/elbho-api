@@ -14,7 +14,7 @@ class helper {
         },
         (salt: string, callback) => {
           bcrypt.hash(string, salt, callback);
-        },
+        }
       ],
       cb
     );

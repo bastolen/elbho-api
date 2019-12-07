@@ -19,6 +19,37 @@ class AdvisorService {
       cb
     );
   }
+
+  static getById(id, cb) {
+    async.waterfall(
+      [
+        callback => Advisor.findById(id, callback).lean(),
+        (result, callback) => {
+          if (!result) {
+            return callback('not found');
+          }
+          return callback(undefined, result);
+        },
+      ],
+      cb
+    );
+  }
+
+  static getAll(cb) {
+    Advisor.find(cb).lean();
+  }
+
+  static updateById(id, newAdvisor, cb) {
+    Advisor.findByIdAndUpdate(id, newAdvisor, { new: true }, (err, advisor) => {
+      if (err) {
+        return cb(err);
+      }
+      if (!advisor) {
+        return cb('not found');
+      }
+      return cb(undefined, advisor);
+    })
+  }
 }
 
 export { AdvisorService };

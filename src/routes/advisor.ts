@@ -5,6 +5,7 @@ const app = express();
 
 app.post('', AdvisorController.register);
 app.get('', AdvisorController.getAll);
-app.get('/:id', AdvisorController.get);
+app.get('/:id', AdvisorController.getById);
+app.put('/:id', AdvisorController.updateById)
 
 export default app;
