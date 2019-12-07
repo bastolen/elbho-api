@@ -1,0 +1,3 @@
+class AppointmentController { }
+
+export { AppointmentController };

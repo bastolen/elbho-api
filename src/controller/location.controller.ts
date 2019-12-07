@@ -14,7 +14,7 @@ class LocationController {
       const { location } = result;
       const [lon, lat] = location.split(', ');
       return res.status(200).send({ lon, lat });
-    })
+    });
   }
 
   static updateMyLocation(req, res) {

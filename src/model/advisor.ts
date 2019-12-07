@@ -13,7 +13,7 @@ const schema = new mongoose.Schema({
   permissionLevel: { type: Number },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
-  lastPinged: { type: Date },
+  lastPinged: { type: Date }
 });
 
 const Advisor = mongoose.model('Advisor', schema);

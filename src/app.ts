@@ -5,7 +5,7 @@ import * as express from 'express';
 import * as mongoose from 'mongoose';
 import { AuthController, LocationController } from './controller';
 import { authMiddleWare } from './middleware';
-import { advisor, availability, invoice, location } from './routes';
+import { advisor, appointment, availability, invoice, location } from './routes';
 
 dotenv.config();
 const app = express();
@@ -18,15 +18,19 @@ app.options('*', cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+// Routes
 app.post('/login', AuthController.login);
 app.get('/advisorlocation/:hash', LocationController.getLocationWithHash);
 
 // MIDDLEWARE FOR AUTH
 app.use('/auth', authMiddleWare);
+
+// Protected routes
 app.use('/auth/advisor', advisor);
 app.use('/auth/availability', availability);
 app.use('/auth/invoice', invoice);
 app.use('/auth/location', location);
+app.use('/auth/appointment', appointment);
 
 // ROUTE NOT FOUND
 app.use('*', (req, res) => {
@@ -39,7 +43,7 @@ mongoose
   .connect(DBURL, {
     useNewUrlParser: true,
     useCreateIndex: true,
-    useUnifiedTopology: true,
+    useUnifiedTopology: true
   })
   .catch(() => console.error("Couldn't connect to the database"))
   .then(() => console.info(`Connected to the database!`));
