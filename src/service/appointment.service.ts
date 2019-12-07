@@ -1,5 +1,5 @@
 import * as async from 'async';
-import { Appointment } from '../model/appointment';
+import { Appointment } from '../model';
 
 class AppointmentService {
   static getAppointmentsForFilter(filterObject, cb) {

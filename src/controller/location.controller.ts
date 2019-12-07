@@ -21,7 +21,8 @@ class LocationController {
     const id = req.advisor._id;
     const { lon, lat } = req.body;
     const location = `${lon}, ${lat}`;
-    AdvisorService.updateById(id, { location }, (err, result) => {
+    const lastPinged = new Date()
+    AdvisorService.updateById(id, { location, lastPinged }, (err, result) => {
       const newLocation = result.location;
       const [newLon, newLat] = newLocation.split(', ');
       return res.status(200).send({ lon: newLon, lat: newLat });

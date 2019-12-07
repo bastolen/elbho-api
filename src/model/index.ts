@@ -1,3 +1,5 @@
 import { Advisor } from './advisor';
+import { Appointment } from './appointment';
+import { Request } from './request';
 
-export { Advisor };
+export { Advisor, Request, Appointment };
