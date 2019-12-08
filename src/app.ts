@@ -3,7 +3,7 @@ import * as cors from 'cors';
 import * as dotenv from 'dotenv';
 import * as express from 'express';
 import * as mongoose from 'mongoose';
-import { AuthController, LocationController } from './controller';
+import { AdvisorController, AuthController, LocationController } from './controller';
 import { authMiddleWare } from './middleware';
 import { advisor, appointment, availability, invoice, location, request, vehicle } from './routes';
 
@@ -20,6 +20,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // Routes
 app.post('/login', AuthController.login);
+
+app.post('/temp', AdvisorController.register);
 app.get('/advisorlocation/:hash', LocationController.getLocationWithHash);
 
 // MIDDLEWARE FOR AUTH
