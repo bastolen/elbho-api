@@ -31,7 +31,7 @@ class AdvisorController {
       !email ||
       !password
     ) {
-      res.send(400);
+      return res.sendStatus(400);
     }
     const newAdvisor = {
       firstName,
@@ -53,7 +53,7 @@ class AdvisorController {
         if (err.code === 11000) {
           return res
             .status(409)
-            .send(`Email ${err.keyValue.email} is already in use`);
+            .send({ error: `Email ${err.keyValue.email} is already in use` });
         }
         return res.sendStatus(500);
       }
@@ -87,10 +87,10 @@ class AdvisorController {
   static getAll(req, res) {
     AdvisorService.getAll((err, result) => {
       if (err) {
-        res.sendStatus(500);
+        return res.sendStatus(500);
       }
       if (!result) {
-        res.sendStatus(404);
+        return res.sendStatus(404);
       }
       const advisors = [];
       result.forEach(advisor => {
@@ -100,7 +100,7 @@ class AdvisorController {
         advisors.push(newAdvisor);
       });
 
-      res.send(advisors);
+      return res.send(advisors);
     });
   }
 

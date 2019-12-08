@@ -39,13 +39,12 @@ class AppointmentController {
     if (req.advisor.permissionLevel > 1) {
       AppointmentService.addAppointmentOld(req.body, (err, result) => {
         if (err) {
-          res.status(500).send(err);
-        } else {
-          res.send(result);
+          return res.status(500).send(err);
         }
+        return res.status(201).send(result);
       });
     } else {
-      res.sendStatus(401);
+      return res.sendStatus(401);
     }
   }
 }

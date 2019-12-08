@@ -17,10 +17,9 @@ class InvoiceController {
 
     InvoiceService.addInvoice(advisorId, new Date(invoiceDate), fileName, file, (err, result) => {
       if (err) {
-        res.status(500).send(err);
-      } else {
-        res.send(result);
+        return res.status(500).send(err);
       }
+      return res.status(201).send(result);
     })
   }
 
@@ -28,10 +27,9 @@ class InvoiceController {
     const advisorId = req.params.id === 'me' ? req.advisor._id : req.params.id;
     InvoiceService.getInvoicesForAdvisor({ advisorId }, (err, result) => {
       if (err) {
-        res.status(500).send(err);
-      } else {
-        res.send(result);
+        return res.status(500).send(err);
       }
+      return res.send(result);
     })
   }
 }

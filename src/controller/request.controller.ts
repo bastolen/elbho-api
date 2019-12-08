@@ -5,10 +5,9 @@ class RequestController {
     const advisorId = req.params.id === 'me' ? req.advisor._id : req.params.id;
     AppointmentService.getAppointmentsForRequestAdvisor(advisorId, (err, result) => {
       if (err) {
-        res.status(500).send(err);
-      } else {
-        res.send(result);
+        return res.status(500).send(err);
       }
+      return res.send(result);
     });
   }
 
@@ -80,10 +79,9 @@ class RequestController {
       advisors,
       (err, result) => {
         if (err) {
-          res.status(500).send(err);
-        } else {
-          res.send(result);
+          return res.status(500).send(err);
         }
+        return res.status(201).send(result);
       }
     )
   }
