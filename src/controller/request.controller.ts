@@ -48,7 +48,7 @@ class RequestController {
       !cocName ||
       !firstChoice
     ) {
-      res.sendStatus(400);
+      return res.sendStatus(400);
     }
     const advisors = [firstChoice];
     if (secondChoice) {
@@ -89,7 +89,21 @@ class RequestController {
   }
 
   static updateRequest(req, res) {
-    res.sendStatus(501);
+    const { accept } = req.body;
+    const advisorId = req.advisor._id;
+    const appointmentId = req.params.id;
+
+    if (typeof accept === 'undefined') {
+      return res.sendStatus(400);
+    }
+
+    AppointmentService.respondToRequest(appointmentId, advisorId, accept, (err) => {
+      if (err) {
+        return res.status(500).send(err);
+      }
+
+      return res.sendStatus(202);
+    })
   }
 }
 

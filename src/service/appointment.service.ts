@@ -64,6 +64,29 @@ class AppointmentService {
       }
     ], cb);
   }
+
+  static respondToRequest(appointmentId, advisorId, response, cb) {
+    async.waterfall([
+      callback => Request.find({ appointment: appointmentId }, callback),
+      (requests, callback) => {
+        const request = requests[0];
+        if (response) {
+          request.accepted = true;
+        }
+        request.advisors.forEach((advisor, index) => {
+          if (advisor.advisor.equals(advisorId)) {
+            advisor.accepted = response;
+            advisor.responded = true;
+            request.currentAdvisorIndex = index;
+          }
+        });
+
+        request.save(callback)
+      },
+      (request, callback) => Appointment.findByIdAndUpdate(appointmentId, { advisor: advisorId }, callback)
+    ], cb);
+
+  }
 }
 
 export { AppointmentService };
