@@ -8,6 +8,9 @@ class AuthController {
     }
     AuthService.login(email, password, (err, result) => {
       if (err || !result) {
+        if (err === 'not found') {
+          return res.sendStatus(401);
+        }
         return res.sendStatus(500);
       }
       return res.send({ token: result });

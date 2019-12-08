@@ -20,6 +20,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // Routes
 app.post('/login', AuthController.login);
+
 app.get('/advisorlocation/:hash', LocationController.getLocationWithHash);
 
 // MIDDLEWARE FOR AUTH
