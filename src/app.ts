@@ -15,8 +15,8 @@ const DBURL = process.env.DB || 'mongodb://localhost:27017/elbho';
 // MIDDLEWARE
 app.use(cors());
 app.options('*', cors());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // Routes
 app.post('/login', AuthController.login);
