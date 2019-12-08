@@ -37,7 +37,7 @@ class AppointmentController {
 
   static createAppointment(req, res) {
     if (req.advisor.permissionLevel > 1) {
-      AppointmentService.addAppointment(req.body, (err, result) => {
+      AppointmentService.addAppointmentOld(req.body, (err, result) => {
         if (err) {
           res.status(500).send(err);
         } else {
