@@ -1,10 +1,10 @@
 {
   "name": "elbho-api-v2",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node -r ts-node/register ./src/app.ts",
+    "start": "rm -rf node_modules && npm i && node -r ts-node/register ./src/app.ts",
     "dev": "nodemon",
     "prod": "tsc && node ./dist/app.js",
     "build": "tsc"
