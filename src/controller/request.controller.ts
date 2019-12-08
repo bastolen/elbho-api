@@ -2,7 +2,14 @@ import { AppointmentService } from '../service';
 
 class RequestController {
   static getRequestForAdvisor(req, res) {
-    res.sendStatus(501);
+    const advisorId = req.params.id === 'me' ? req.advisor._id : req.params.id;
+    AppointmentService.getAppointmentsForRequestAdvisor(advisorId, (err, result) => {
+      if (err) {
+        res.status(500).send(err);
+      } else {
+        res.send(result);
+      }
+    });
   }
 
   static createRequest(req, res) {

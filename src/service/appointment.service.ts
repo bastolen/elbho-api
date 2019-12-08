@@ -47,6 +47,23 @@ class AppointmentService {
       cb
     );
   }
+
+  static getAppointmentsForRequestAdvisor(advisorId, cb) {
+    async.waterfall([
+      callback => Request.find({ currentAdvisor: advisorId, accepted: false }, callback).lean(),
+      (requests, callback) => {
+        if (requests.length === 0) {
+          return callback(undefined, [])
+        }
+        const appointmentIds = [];
+        requests.forEach(request => {
+          appointmentIds.push(request.appointment);
+        });
+
+        this.getAppointmentsForFilter({ '_id': { $in: appointmentIds } }, callback);
+      }
+    ], cb);
+  }
 }
 
 export { AppointmentService };
