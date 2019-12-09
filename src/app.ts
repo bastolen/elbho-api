@@ -38,7 +38,7 @@ app.use('/auth/reservation', ReservationRoutes);
 
 // ROUTE NOT FOUND
 app.use('*', (req, res) => {
-  console.warn(`Called route(${req.originalUrl}) not found`);
+  console.warn(`Called route: ${req.originalUrl} with method: ${req.method} not found`);
   res.status(404).send({ code: 404, message: 'route not found' });
 });
 

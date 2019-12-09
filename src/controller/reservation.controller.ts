@@ -73,6 +73,21 @@ class ReservationController {
       return res.send(result);
     });
   }
+
+  static deleteReservation(req, res) {
+    const advisor = req.advisor._id;
+    const reservation = req.params.id;
+
+    ReservationService.deleteReservation(advisor, reservation, (err, result) => {
+      if (err) {
+        return res.sendStatus(500)
+      }
+      if (result.deletedCount === 0) {
+        return res.status(401).send({ error: 'Not your reservation' });
+      }
+      return res.sendStatus(200);
+    });
+  }
 }
 
 export { ReservationController };
