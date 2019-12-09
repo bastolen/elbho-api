@@ -45,7 +45,17 @@ class ReservationController {
   }
 
   static getReservations(req, res) {
-    res.sendStatus(501);
+    let filter = {};
+    if (req.query && new Date(req.query.date).toString() !== 'Invalid Date') {
+      filter = { date: new Date(req.query.date) };
+    }
+
+    ReservationService.getVehiclesWithReservations(filter, (err, result) => {
+      if (err) {
+        return res.sendStatus(500);
+      }
+      return res.send(result);
+    });
   }
 }
 

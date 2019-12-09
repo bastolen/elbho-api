@@ -13,5 +13,5 @@ const schema = new mongoose.Schema(
   }
 );
 
-const Reservation = mongoose.model('InReservationvoice', schema);
+const Reservation = mongoose.model('Reservation', schema);
 export { Reservation };
