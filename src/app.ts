@@ -4,8 +4,8 @@ import * as dotenv from 'dotenv';
 import * as express from 'express';
 import * as mongoose from 'mongoose';
 import { AuthController, LocationController } from './controller';
-import { authMiddleWare } from './middleware';
-import { advisor, appointment, availability, invoice, location, request, vehicle } from './routes';
+import { AuthMiddleWare } from './middleware';
+import { AdvisorRoutes, AppointmentRoutes, AvailabilityRoutes, InvoiceRoutes, LocationRoutes, RequestRoutes, VehicleRoutes } from './routes';
 
 dotenv.config();
 const app = express();
@@ -24,16 +24,16 @@ app.post('/login', AuthController.login);
 app.get('/advisorlocation/:hash', LocationController.getLocationWithHash);
 
 // MIDDLEWARE FOR AUTH
-app.use('/auth', authMiddleWare);
+app.use('/auth', AuthMiddleWare);
 
 // Protected routes
-app.use('/auth/advisor', advisor);
-app.use('/auth/availability', availability);
-app.use('/auth/invoice', invoice);
-app.use('/auth/location', location);
-app.use('/auth/appointment', appointment);
-app.use('/auth/request', request);
-app.use('/auth/vehicle', vehicle);
+app.use('/auth/advisor', AdvisorRoutes);
+app.use('/auth/availability', AvailabilityRoutes);
+app.use('/auth/invoice', InvoiceRoutes);
+app.use('/auth/location', LocationRoutes);
+app.use('/auth/appointment', AppointmentRoutes);
+app.use('/auth/request', RequestRoutes);
+app.use('/auth/vehicle', VehicleRoutes);
 
 // ROUTE NOT FOUND
 app.use('*', (req, res) => {
@@ -46,7 +46,8 @@ mongoose
   .connect(DBURL, {
     useNewUrlParser: true,
     useCreateIndex: true,
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
+    useFindAndModify: false
   })
   .catch(() => console.error("Couldn't connect to the database"))
   .then(() => console.info(`Connected to the database!`));

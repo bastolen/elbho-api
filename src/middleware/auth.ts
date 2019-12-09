@@ -1,6 +1,6 @@
 import { helper } from '../config';
 
-const authMiddleWare = (req, res, next) => {
+const AuthMiddleWare = (req, res, next) => {
   const { authorization } = req.headers;
   if (
     authorization &&
@@ -25,4 +25,4 @@ const authMiddleWare = (req, res, next) => {
   }
 };
 
-export { authMiddleWare };
+export default AuthMiddleWare;

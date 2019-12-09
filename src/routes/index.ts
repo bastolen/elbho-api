@@ -1,9 +1,9 @@
-import advisor from './advisor';
-import appointment from './appointment';
-import availability from './availability';
-import invoice from './invoice';
-import location from './location';
-import request from './request';
-import vehicle from './vehicle';
+import AdvisorRoutes from './advisor.routes';
+import AppointmentRoutes from './appointment.routes';
+import AvailabilityRoutes from './availability.routes';
+import InvoiceRoutes from './invoice.routes';
+import LocationRoutes from './location.routes';
+import RequestRoutes from './request.routes';
+import VehicleRoutes from './vehicle.routes';
 
-export { advisor, availability, invoice, location, appointment, request, vehicle };
+export { AdvisorRoutes, AvailabilityRoutes, InvoiceRoutes, LocationRoutes, AppointmentRoutes, RequestRoutes, VehicleRoutes };
