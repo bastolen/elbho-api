@@ -57,7 +57,7 @@ class AdvisorController {
         if (err.code === 11000) {
           return res
             .status(409)
-            .send({ error: `Email ${err.keyValue.email} is already in use` });
+            .send({ error: `Email ${email} is already in use` });
         }
         return res.sendStatus(500);
       }
