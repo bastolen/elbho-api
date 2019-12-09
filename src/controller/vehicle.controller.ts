@@ -2,6 +2,10 @@ import { VehicleService } from "../service";
 
 class VehicleController {
   static createVehicle(req, res) {
+    if (!req.body) {
+      return res.sendStatus(400);
+    }
+
     const { licensePlate, brand, model, location } = req.body;
     if (!licensePlate || !brand || !model || !location) {
       return res.sendStatus(400);

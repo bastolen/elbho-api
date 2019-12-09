@@ -2,6 +2,10 @@ import { InvoiceService } from "../service";
 
 class InvoiceController {
   static addInvoice(req, res) {
+    if (!req.body) {
+      return res.sendStatus(400);
+    }
+
     if (!req.file || !req.body.date) {
       return res.sendStatus(400);
     }

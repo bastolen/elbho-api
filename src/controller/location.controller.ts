@@ -18,6 +18,10 @@ class LocationController {
   }
 
   static updateMyLocation(req, res) {
+    if (!req.body) {
+      return res.sendStatus(400);
+    }
+
     const id = req.advisor._id;
     const { lon, lat } = req.body;
     const location = `${lon}, ${lat}`;
