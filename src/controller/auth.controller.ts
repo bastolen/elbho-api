@@ -2,6 +2,10 @@ import { AuthService } from '../service';
 
 class AuthController {
   static login(req, res) {
+    if (!req.body) {
+      return res.sendStatus(400);
+    }
+
     const { email, password } = req.body;
     if (!email || !password) {
       return res.sendStatus(400);

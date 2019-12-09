@@ -48,6 +48,10 @@ class AvailabilityController {
   }
 
   static setAvailability(req, res) {
+    if (!req.body) {
+      return res.sendStatus(400);
+    }
+
     const advisorId = req.advisor._id;
     const { availabilities } = req.body;
 

@@ -2,6 +2,10 @@ import { AdvisorService } from '../service';
 
 class AdvisorController {
   static register(req, res) {
+    if (!req.body) {
+      return res.sendStatus(400);
+    }
+
     const {
       firstName,
       lastName,
@@ -105,7 +109,7 @@ class AdvisorController {
   }
 
   static updateById(req, res) {
-    if (!req.params || !req.params.id) {
+    if (!req.params || !req.params.id || !req.body) {
       return res.sendStatus(400);
     }
 
