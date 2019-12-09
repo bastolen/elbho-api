@@ -108,6 +108,10 @@ class ReservationService {
       }
     ], cb);
   }
+
+  static deleteReservation(advisor, reservation, cb) {
+    Reservation.deleteOne({ _id: reservation, advisor }, cb);
+  }
 }
 
 export { ReservationService };
