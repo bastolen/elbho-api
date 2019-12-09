@@ -5,7 +5,7 @@ import * as express from 'express';
 import * as mongoose from 'mongoose';
 import { AuthController, LocationController } from './controller';
 import { AuthMiddleWare } from './middleware';
-import { AdvisorRoutes, AppointmentRoutes, AvailabilityRoutes, InvoiceRoutes, LocationRoutes, RequestRoutes, VehicleRoutes } from './routes';
+import { AdvisorRoutes, AppointmentRoutes, AvailabilityRoutes, InvoiceRoutes, LocationRoutes, RequestRoutes, ReservationRoutes, VehicleRoutes } from './routes';
 
 dotenv.config();
 const app = express();
@@ -34,6 +34,7 @@ app.use('/auth/location', LocationRoutes);
 app.use('/auth/appointment', AppointmentRoutes);
 app.use('/auth/request', RequestRoutes);
 app.use('/auth/vehicle', VehicleRoutes);
+app.use('/auth/reservation', ReservationRoutes);
 
 // ROUTE NOT FOUND
 app.use('*', (req, res) => {
