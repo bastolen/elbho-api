@@ -7,7 +7,7 @@
     "start": "node ./dist/app.js",
     "start_old": "node -r ts-node/register ./src/app.ts",
     "dev": "nodemon",
-    "prod": "tsc && node ./dist/app.js",
+    "prod": "rm -rf dist && tsc && node ./dist/app.js",
     "build": "tsc"
   },
   "author": "",
