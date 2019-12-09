@@ -57,6 +57,22 @@ class ReservationController {
       return res.send(result);
     });
   }
+
+  static getReservationsForAdvisor(req, res) {
+    const advisor = req.params.id === 'me' ? req.advisor._id : req.params.id;
+
+    let filter: { advisor, date?} = { advisor };
+    if (req.query && new Date(req.query.after).toString() !== 'Invalid Date') {
+      filter = { ...filter, date: { $gte: new Date(req.query.after) } };
+    }
+
+    ReservationService.getReservationsWithVehicles(filter, (err, result) => {
+      if (err) {
+        return res.sendStatus(500);
+      }
+      return res.send(result);
+    });
+  }
 }
 
 export { ReservationController };

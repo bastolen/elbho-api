@@ -61,11 +61,7 @@ class ReservationService {
         const indices: number[] = [];
 
         reservations.forEach((reservation, index) => {
-          console.log('reservation.service.ts:64 | vehicle: ', newVehicle._id);
-          console.log('reservation.service.ts:65 | id: ', reservation.vehicle);
-
           if (newVehicle._id.toString() === reservation.vehicle.toString()) {
-            console.log('reservation.service.ts:65');
             indices.push(index);
             newVehicle.reservations.push({ ...reservation })
           }
@@ -80,6 +76,37 @@ class ReservationService {
       return cb(null, filledVehicles);
     });
 
+  }
+
+  static getReservationsWithVehicles(filter, cb) {
+    let reservations;
+    async.waterfall([
+      callback => Reservation.find(filter, callback).lean(),
+      (result, callback) => {
+        reservations = [...result];
+
+        const vehicleIds = [];
+        reservations.forEach(reservation => {
+          vehicleIds.push(reservation.vehicle);
+        });
+
+        Vehicle.find({ '_id': { $in: vehicleIds } }, callback).lean();
+      },
+      (result, callback) => {
+        const vehicles = [...result];
+        const totalResult = []
+        reservations.forEach(reservation => {
+          const finalReservation = { ...reservation };
+
+          const [reservedVehicle] = vehicles.filter(vehicle => vehicle._id.toString() === reservation.vehicle.toString());
+          finalReservation.vehicle = reservedVehicle;
+
+          totalResult.push(finalReservation);
+        });
+
+        callback(null, totalResult);
+      }
+    ], cb);
   }
 }
 
