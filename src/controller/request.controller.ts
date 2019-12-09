@@ -12,6 +12,10 @@ class RequestController {
   }
 
   static createRequest(req, res) {
+    if (!req.body) {
+      return res.sendStatus(400);
+    }
+
     const {
       startTime,
       endTime,
@@ -87,6 +91,10 @@ class RequestController {
   }
 
   static updateRequest(req, res) {
+    if (!req.body) {
+      return res.sendStatus(400);
+    }
+
     const { accept } = req.body;
     const advisorId = req.advisor._id;
     const appointmentId = req.params.id;
