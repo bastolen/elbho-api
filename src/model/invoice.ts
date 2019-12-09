@@ -2,7 +2,7 @@ import * as mongoose from 'mongoose';
 
 const schema = new mongoose.Schema(
   {
-    advisorId: { type: mongoose.Schema.Types.ObjectId, ref: 'Advisor' },
+    advisor: { type: mongoose.Schema.Types.ObjectId, ref: 'Advisor' },
     fileName: { type: String },
     date: { type: Date, default: Date.now },
     filePath: { type: String },
