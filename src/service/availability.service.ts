@@ -3,18 +3,7 @@ import { Availability } from "../model";
 
 class AvailabilityService {
   static getAvailabilityForFilter(filterObject, cb) {
-    async.waterfall(
-      [
-        callback => Availability.find(filterObject, callback).lean(),
-        (result, callback) => {
-          if (!result) {
-            return callback('not found');
-          }
-          return callback(undefined, result);
-        },
-      ],
-      cb
-    );
+    Availability.find(filterObject, cb).lean();
   }
 
   static setAvailabilityForAdvisor(advisorId, availabilities, cb) {

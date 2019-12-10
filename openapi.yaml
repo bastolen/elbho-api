@@ -1,0 +1,1043 @@
+openapi: 3.0.0
+info:
+  description: "This API can be used."
+  version: "0.3.4"
+  title: "ELBHO Erkenningsadviseur"
+  contact:
+    email: "elbho@bastolen.nl"
+servers:
+  - url: https://bt-elbho-api.herokuapp.com
+tags:
+  - name: Login
+  - name: Advisor
+  - name: Appointment
+  - name: Availability
+  - name: Invoice
+  - name: Location
+  - name: Request
+  - name: Reservation
+  - name: Vehicle
+paths:
+  /login:
+    post:
+      tags:
+        - Login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: elbho@bastolen.nl
+                password:
+                  type: string
+                  example: SecurePassword
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                    example: "authtoken"
+        400:
+          $ref: '#/components/responses/BadRequest'
+        403:
+          $ref: '#/components/responses/Unauthorized'
+  /auth/advisor:
+    get:
+      description: Get all the advisors
+      security:
+        - auth: []
+      tags:
+        - Advisor
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Advisor'
+
+        403:
+          description: Not authorized
+          content:
+            text/plain:
+              example: Bad request
+        404:
+          description: Not Found
+          content:
+            text/plain:
+              example: Not Found
+        500:
+          $ref: '#/components/responses/Internal'
+    post:
+      tags:
+        - Advisor
+      security:
+        - auth: []
+      requestBody:
+        required: true
+        description: Dont include '_id', 'location', 'permissionLevel', 'lastPinged', 'createdAt', 'updatedAt'
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Advisor'
+      responses:
+        201:
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Advisor'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        403:
+          $ref: '#/components/responses/Unauthorized'
+        409:
+          description: Conflict
+          content:
+            text/plain:
+              example: Email elbho@bastolen.nl is already in use
+        500:
+          $ref: '#/components/responses/Internal'
+  /auth/advisor/{id}:
+    get:
+      tags:
+        - Advisor
+      security:
+        - auth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: The advisor _id or 'me' to get the advisor from the token
+          schema:
+            type: string
+            example: 586350424srwtwyi4u
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Advisor'
+        403:
+          $ref: '#/components/responses/Unauthorized'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/Internal'
+    put:
+      tags:
+        - Advisor
+      security:
+        - auth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: The advisor _id or 'me' to get the advisor from the token
+          schema:
+            type: string
+            example: 586350424srwtwyi4u
+      requestBody:
+        required: true
+        description: Dont include '_id', 'location', 'permissionLevel', 'lastPinged', 'createdAt', 'updatedAt' and only include the fields you want to update
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Advisor'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Advisor'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        403:
+          $ref: '#/components/responses/Unauthorized'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/Internal'
+  /auth/appointment/{advisorId}:
+    get:
+      tags:
+        - Appointment
+      security:
+        - auth: []
+      parameters:
+        - in: path
+          name: advisorId
+          required: true
+          description: The advisor _id or 'me' to get the advisor from the token
+          schema:
+            type: string
+            example: 586350424srwtwyi4u
+        - in: query
+          name: page
+          schema:
+            type: integer
+        - in: query
+          name: limit
+          schema:
+            type: integer
+        - in: query
+          name: before
+          schema:
+            type: string
+            example: '2019-12-07T17:00:46.694Z'
+        - in: query
+          name: after
+          schema:
+            type: string
+            example: '2019-12-07T17:00:46.694Z'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Appointment'
+        403:
+          $ref: '#/components/responses/Unauthorized'
+        500:
+          $ref: '#/components/responses/Internal'
+  /auth/availability:
+    post:
+      security:
+        - auth: []
+      tags:
+        - Availability
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/Availability'
+      responses:
+        201:
+          description: Created
+          content:
+            text/plain:
+              example: Created
+        400:
+          $ref: '#/components/responses/BadRequest'
+        403:
+          $ref: '#/components/responses/Unauthorized'
+        500:
+          $ref: '#/components/responses/Internal'
+  /auth/availability/{advisorId}:
+    get:
+      tags:
+        - Availability
+      security:
+        - auth: []
+      parameters:
+        - in: path
+          name: advisorId
+          required: true
+          description: The advisor _id or 'me' to get the advisor from the token
+          schema:
+            type: string
+            example: 586350424srwtwyi4u
+        - in: query
+          name: before
+          schema:
+            type: string
+            example: '2019-12-07T17:00:46.694Z'
+        - in: query
+          name: after
+          schema:
+            type: string
+            example: '2019-12-07T17:00:46.694Z'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Availability'
+        403:
+          $ref: '#/components/responses/Unauthorized'
+        500:
+          $ref: '#/components/responses/Internal'
+  /auth/invoice:
+    post:
+      tags:
+        - Invoice
+      security:
+        - auth: []
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                date:
+                  type: string
+                  example: '2019-12-07T17:00:46.694Z'
+                file:
+                  type: string
+                  format: binary
+      responses:
+        201:
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Invoice'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        403:
+          $ref: '#/components/responses/Unauthorized'
+        500:
+          $ref: '#/components/responses/Internal'
+  /auth/invoice/{advisorId}:
+    get:
+      tags:
+        - Invoice
+      security:
+        - auth: []
+      parameters:
+        - in: path
+          name: advisorId
+          required: true
+          description: The advisor _id or 'me' to get the advisor from the token
+          schema:
+            type: string
+            example: 586350424srwtwyi4u
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Invoice'
+        403:
+          $ref: '#/components/responses/Unauthorized'
+        500:
+          $ref: '#/components/responses/Internal'
+  /auth/location:
+    put:
+      security:
+        - auth: []
+      tags:
+        - Location
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                lon:
+                  type: string
+                  example: '1.00'
+                lat:
+                  type: string
+                  example: '2.00'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  lon:
+                    type: string
+                    example: '1.00'
+                  lat:
+                    type: string
+                    example: '2.00'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        403:
+          $ref: '#/components/responses/Unauthorized'
+        500:
+          $ref: '#/components/responses/Internal'
+  /auth/location/{advisorId}:
+    get:
+      tags:
+        - Location
+      security:
+        - auth: []
+      parameters:
+        - in: path
+          name: advisorId
+          required: true
+          description: The advisor _id or 'me' to get the advisor from the token
+          schema:
+            type: string
+            example: 586350424srwtwyi4u
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  lon:
+                    type: string
+                    example: '1.00'
+                  lat:
+                    type: string
+                    example: '2.00'
+        403:
+          $ref: '#/components/responses/Unauthorized'
+        500:
+          $ref: '#/components/responses/Internal'
+  /auth/request:
+    post:
+      tags:
+        - Request
+      security:
+        - auth: []
+      requestBody:
+        $ref: '#/components/requestBodies/request'
+      responses:
+        201:
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Appointment'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        403:
+          $ref: '#/components/responses/Unauthorized'
+        409:
+          description: Conflict
+          content:
+            text/plain:
+              example: no advisors found for the included ids
+        500:
+          $ref: '#/components/responses/Internal'
+  /auth/request/{advisorId}:
+    get:
+      tags:
+        - Request
+      security:
+        - auth: []
+      parameters:
+        - in: path
+          name: advisorId
+          required: true
+          description: The advisor _id or 'me' to get the advisor from the token
+          schema:
+            type: string
+            example: 586350424srwtwyi4u
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Appointment'
+        403:
+         $ref: '#/components/responses/Unauthorized'
+        500:
+          $ref: '#/components/responses/Internal'
+  /auth/request/{appointmentId}:
+    put:
+      tags:
+        - Request
+      security:
+        - auth: []
+      parameters:
+        - in: path
+          name: appointmentId
+          required: true
+          schema:
+            type: string
+            example: 586350424srwtwyi4u
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                accept:
+                  type: boolean
+                  example: true
+      responses:
+        202:
+          description: Accepted
+          content:
+            text/plain:
+              example: Accepted
+        400:
+          $ref: '#/components/responses/BadRequest'
+        403:
+          $ref: '#/components/responses/Unauthorized'
+        409:
+          description: Conflict
+          content:
+            text/plain:
+              example: no request found for this id
+        500:
+          $ref: '#/components/responses/Internal'
+  /auth/reservation:
+    get:
+      description: If you add both the parameters, it will return only the reservations for the 'date' parameter value. If you only add 'date', it will only return reservations for the 'date' parameter value. If you only add 'after', it will only return reservations after the 'after' parameter value. If you don't add any, it will return all the reservations. The reservations that are the result of the parameters will be added to the correct car in the response.
+      tags:
+        - Reservation
+      security:
+        - auth: []
+      parameters:
+        - in: query
+          name: date
+          schema:
+            type: string
+            example: '2019-12-07T17:00:46.694Z'
+        - in: query
+          name: after
+          schema:
+            type: string
+            example: '2019-12-07T17:00:46.694Z'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    _id:
+                      type: string
+                      example: 586350424srwtwyi4u
+                    licensePlate:
+                      type: string
+                      example: '1-AAA-01'
+                    brand:
+                      type: string
+                      example: Fiat
+                    model:
+                      type: string
+                      example: '500'
+                    location:
+                      type: string
+                      description: The coordinates of the advisors location on the lastPinged date
+                      example: lon, lat
+                    reservations:
+                      type: array
+                      items:
+                        $ref: '#/components/schemas/Reservation'
+                    createdAt:
+                      type: string
+                      example: '2019-12-07T17:00:46.694Z'
+                    updatedAt:
+                      type: string
+                      example: '2019-12-07T17:00:46.694Z'
+        403:
+          $ref: '#/components/responses/Unauthorized'
+        500:
+          $ref: '#/components/responses/Internal'
+    post:
+      tags:
+        - Reservation
+      security:
+        - auth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Reservation'
+      responses:
+        201:
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Advisor'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        403:
+          $ref: '#/components/responses/Unauthorized'
+        409:
+          description: Conflict
+          content:
+            text/plain:
+              example: vehicle already reserved OR Vehicle for this id not found
+        500:
+          $ref: '#/components/responses/Internal'
+  /auth/reservation/{advisorId}:
+    get:
+      tags:
+        - Reservation
+      security:
+        - auth: []
+      parameters:
+        - in: path
+          name: advisorId
+          required: true
+          description: The advisor _id or 'me' to get the advisor from the token
+          schema:
+            type: string
+            example: 586350424srwtwyi4u
+        - in: query
+          name: after
+          schema:
+            type: string
+            example: '2019-12-07T17:00:46.694Z'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    _id:
+                      type: string
+                      example: 586350424srwtwyi4u
+                    advisor:
+                      type: string
+                      example: 586350424srwtwyi4u
+                    vehicle:
+                      $ref: '#/components/schemas/Vehicle'
+                    date:
+                      type: string
+                      example: '2019-12-07T17:00:46.694Z'
+                    start:
+                      type: string
+                      example: '2019-12-07T17:00:46.694Z'
+                    end:
+                      type: string
+                      example: '2019-12-07T17:00:46.694Z'
+                    createdAt:
+                      type: string
+                      example: '2019-12-07T17:00:46.694Z'
+                    updatedAt:
+                      type: string
+                      example: '2019-12-07T17:00:46.694Z'
+
+        403:
+         $ref: '#/components/responses/Unauthorized'
+        500:
+          $ref: '#/components/responses/Internal'
+  /auth/reservation/{reservationId}:
+    delete:
+      tags:
+        - Reservation
+      security:
+        - auth: []
+      parameters:
+        - in: path
+          name: reservationId
+          required: true
+          schema:
+            type: string
+            example: 586350424srwtwyi4u
+      responses:
+        200:
+          description: OK
+          content:
+            text/plain:
+              example: OK
+        401:
+          description: Unauthorized
+          content:
+            text/plain:
+              example: Not your reservation
+        403:
+          $ref: '#/components/responses/Unauthorized'
+        500:
+          $ref: '#/components/responses/Internal'
+  /auth/vehicle:
+    get:
+      tags:
+        - Vehicle
+      security:
+        - auth: []
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+        - in: query
+          name: limit
+          schema:
+            type: integer
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Vehicle'
+        500:
+          $ref: '#/components/responses/Internal'
+    post:
+      tags:
+        - Vehicle
+      security:
+        - auth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Vehicle'
+      responses:
+        201:
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Advisor'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        403:
+          $ref: '#/components/responses/Unauthorized'
+        409:
+          description: Conflict
+          content:
+            text/plain:
+              example: Licenseplate 1-AAA-01 is already in use
+        500:
+          $ref: '#/components/responses/Internal'
+components:
+  requestBodies:
+    request:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              startTime:
+                type: string
+                example: '2019-12-07T17:00:46.694Z'
+              endTime:
+                type: string
+                example: '2019-12-07T17:00:46.694Z'
+              comment:
+                type: string
+                example: nvt
+              address:
+                type: string
+                example: straat 1 plaats
+              contactPersonName:
+                type: string
+                example: Harry
+              contactPersonPhoneNumber:
+                type: string
+                example: '0612345678'
+              contactPersonFunction:
+                type: string
+                example: CEO
+              contactPersonEmail:
+                type: string
+                example: Harry@company.com
+              active:
+                type: boolean
+                example: true
+              website:
+                type: string
+                example: 'www.company.com'
+              logo:
+                type: string
+                example: 'www.company.com/logo.png'
+              cocNumber:
+                type: string
+                example: 63235
+              cocName:
+                type: string
+                example: Company
+              advisors:
+                type: array
+                items:
+                  type: string
+                  example: 586350424srwtwyi4u
+  securitySchemes:
+    auth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    Advisor:
+      properties:
+        _id:
+          type: string
+          example: 586350424srwtwyi4u
+        firstName:
+          type: string
+          example: Harry
+        lastName:
+          type: string
+          example: de Kok
+        gender:
+          type: string
+          example: man
+        email:
+          type: string
+          example: elbho@bastolen.nl
+        password:
+          type: string
+          example: SecurePassword
+        phoneNumber:
+          type: string
+          example: '0612345678'
+        active:
+          type: boolean
+          example: true
+        status:
+          type: string
+          example: Op de fiets
+        location:
+          type: string
+          description: The coordinates of the advisors location on the lastPinged date
+          example: lon, lat
+        workArea:
+          type: string
+          example: Haarlem
+        region:
+          type: string
+          example: Noord-Holland
+        permissionLevel:
+          type: number
+          example: 1
+        lastPinged:
+          type: string
+          example: '2019-12-07T17:00:46.694Z'
+        createdAt:
+          type: string
+          example: '2019-12-07T17:00:46.694Z'
+        updatedAt:
+          type: string
+          example: '2019-12-07T17:00:46.694Z'
+    Appointment:
+      properties:
+        _id:
+          type: string
+          example: 586350424srwtwyi4u
+        startTime:
+          type: string
+          example: '2019-12-07T17:00:46.694Z'
+        endTime:
+          type: string
+          example: '2019-12-07T17:00:46.694Z'
+        comment:
+          type: string
+          example: nvt
+        address:
+          type: string
+          example: straat 1 plaats
+        contactPersonName:
+          type: string
+          example: Harry
+        contactPersonPhoneNumber:
+          type: string
+          example: '0612345678'
+        contactPersonFunction:
+          type: string
+          example: CEO
+        contactPersonEmail:
+          type: string
+          example: Harry@company.com
+        active:
+          type: boolean
+          example: true
+        website:
+          type: string
+          example: 'www.company.com'
+        logo:
+          type: string
+          example: 'www.company.com/logo.png'
+        cocNumber:
+          type: string
+          example: 63235
+        cocName:
+          type: string
+          example: Company
+        advisor:
+          type: string
+          description: Set when the appointment has a person who is going
+          example: 586350424srwtwyi4u
+        createdAt:
+          type: string
+          example: '2019-12-07T17:00:46.694Z'
+        updatedAt:
+          type: string
+          example: '2019-12-07T17:00:46.694Z'
+    Availability:
+      properties:
+        _id:
+          type: string
+          example: 586350424srwtwyi4u
+        advisor:
+          type: string
+          example: 586350424srwtwyi4u
+        date:
+          type: string
+          example: '2019-12-07T17:00:46.694Z'
+        start:
+          type: string
+          example: '2019-12-07T17:00:46.694Z'
+        end:
+          type: string
+          example: '2019-12-07T17:00:46.694Z'
+        createdAt:
+          type: string
+          example: '2019-12-07T17:00:46.694Z'
+        updatedAt:
+          type: string
+          example: '2019-12-07T17:00:46.694Z'
+    Invoice:
+      properties:
+        _id:
+          type: string
+          example: 586350424srwtwyi4u
+        advisor:
+          type: string
+          example: 586350424srwtwyi4u
+        fileName:
+          type: string
+          example: invoice.pdf
+        date:
+          type: string
+          example: '2019-12-07T17:00:46.694Z'
+        filePath:
+          type: string
+          example: path/to/file
+        invoiceMonth:
+          type: string
+          example: '2019-12-07T17:00:46.694Z'
+        createdAt:
+          type: string
+          example: '2019-12-07T17:00:46.694Z'
+        updatedAt:
+          type: string
+          example: '2019-12-07T17:00:46.694Z'
+    Request:
+      properties:
+        _id:
+          type: string
+          example: 586350424srwtwyi4u
+        appointment:
+          type: string
+          example: 586350424srwtwyi4u
+        accepted:
+          type: boolean
+          default: false
+        currentAdvisorIndex:
+          type: number
+          default: 0
+        currentAdvisor:
+          type: string
+          example: 586350424srwtwyi4u
+        advisors:
+          type: array
+          items:
+            type: string
+            description: advisor._id
+            example: 586350424srwtwyi4u
+        createdAt:
+          type: string
+          example: '2019-12-07T17:00:46.694Z'
+        updatedAt:
+          type: string
+          example: '2019-12-07T17:00:46.694Z'
+    Reservation:
+      properties:
+        _id:
+          type: string
+          example: 586350424srwtwyi4u
+        advisor:
+          type: string
+          example: 586350424srwtwyi4u
+        vehicle:
+          type: string
+          example: 586350424srwtwyi4u
+        date:
+          type: string
+          example: '2019-12-07T17:00:46.694Z'
+        start:
+          type: string
+          example: '2019-12-07T17:00:46.694Z'
+        end:
+          type: string
+          example: '2019-12-07T17:00:46.694Z'
+        createdAt:
+          type: string
+          example: '2019-12-07T17:00:46.694Z'
+        updatedAt:
+          type: string
+          example: '2019-12-07T17:00:46.694Z'
+    Vehicle:
+      properties:
+        _id:
+          type: string
+          example: 586350424srwtwyi4u
+        licensePlate:
+          type: string
+          example: '1-AAA-01'
+        brand:
+          type: string
+          example: Fiat
+        model:
+          type: string
+          example: '500'
+        location:
+          type: string
+          description: The coordinates of the advisors location on the lastPinged date
+          example: lon, lat
+        createdAt:
+          type: string
+          example: '2019-12-07T17:00:46.694Z'
+        updatedAt:
+          type: string
+          example: '2019-12-07T17:00:46.694Z'
+  responses:
+    Unauthorized:
+      description: Not authorized
+      content:
+        text/plain:
+          example: Bad request
+    NotFound:
+      description: Not Found
+      content:
+        text/plain:
+          example: Not Found
+    BadRequest:
+      description: Forgot something in the body
+      content:
+        text/plain:
+          example: Bad request
+    Internal:
+      description: Internal Server Error
+      content:
+        text/plain:
+          example: Internal Server Error

@@ -4,7 +4,11 @@ import { Reservation, Vehicle } from '../model';
 class ReservationService {
   static createReservation(reservation, cb) {
     async.waterfall([
-      (callback) => {
+      callback => Vehicle.findById(reservation.vehicle, callback).lean(),
+      (vehicle, callback) => {
+        if (!vehicle) {
+          return callback('vehicle not found')
+        }
         // Get reservations for the vehicle for the day
         Reservation.find({
           vehicle: reservation.vehicle,

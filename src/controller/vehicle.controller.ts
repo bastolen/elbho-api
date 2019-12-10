@@ -13,6 +13,11 @@ class VehicleController {
 
     VehicleService.create({ licensePlate, brand, model, location }, (err, result) => {
       if (err) {
+        if (err.code === 11000) {
+          return res
+            .status(409)
+            .send(`Licenseplate ${licensePlate} is already in use`);
+        }
         return res.sendStatus(500);
       }
       return res.status(201).send(result);
