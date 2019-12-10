@@ -126,7 +126,10 @@ class AdvisorController {
           }
           return res.sendStatus(500);
         }
-        return res.send(result);
+        const advisor = { ...result._doc };
+        delete advisor.password;
+        delete advisor.__v;
+        return res.send(advisor);
       });
     } else {
       return res.sendStatus(403);
