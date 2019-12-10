@@ -15,9 +15,6 @@ const schema = new mongoose.Schema(
     logo: { type: String },
     cocNumber: { type: String },
     cocName: { type: String },
-    firstChoice: { type: mongoose.Schema.Types.ObjectId, ref: 'Advisor' },
-    secondChoice: { type: mongoose.Schema.Types.ObjectId, ref: 'Advisor' },
-    thirdChoice: { type: mongoose.Schema.Types.ObjectId, ref: 'Advisor' },
     advisor: { type: mongoose.Schema.Types.ObjectId, ref: 'Advisor' }
   },
   {

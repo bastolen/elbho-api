@@ -3,7 +3,7 @@ import { AppointmentController } from '../controller';
 
 const app = express();
 
-app.get('/:id', AppointmentController.getAppointmentsForId);
-app.post('', AppointmentController.createAppointment);
+app.get('/:advisorId', AppointmentController.getAppointmentsForId);
+// app.post('', AppointmentController.createAppointment);
 
 export default app;

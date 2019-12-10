@@ -13,10 +13,8 @@ class AdvisorController {
       phoneNumber,
       active,
       status,
-      location,
       workArea,
       region,
-      permissionLevel,
       email,
       password
     } = req.body;
@@ -28,10 +26,8 @@ class AdvisorController {
       !phoneNumber ||
       typeof active === 'undefined' ||
       !status ||
-      !location ||
       !workArea ||
       !region ||
-      !permissionLevel ||
       !email ||
       !password
     ) {
@@ -44,10 +40,8 @@ class AdvisorController {
       phoneNumber,
       active,
       status,
-      location,
       workArea,
       region,
-      permissionLevel,
       email,
       password
     };
@@ -57,7 +51,7 @@ class AdvisorController {
         if (err.code === 11000) {
           return res
             .status(409)
-            .send({ error: `Email ${email} is already in use` });
+            .send(`Email ${email} is already in use`);
         }
         return res.sendStatus(500);
       }
@@ -69,9 +63,6 @@ class AdvisorController {
   }
 
   static getById(req, res) {
-    if (!req.params || !req.params.id) {
-      return res.sendStatus(400);
-    }
     const id = req.params.id === 'me' ? req.advisor._id : req.params.id;
     AdvisorService.getById(id, (err, result) => {
       if (err) {
@@ -93,12 +84,9 @@ class AdvisorController {
       if (err) {
         return res.sendStatus(500);
       }
-      if (!result) {
-        return res.sendStatus(404);
-      }
       const advisors = [];
       result.forEach(advisor => {
-        const newAdvisor = advisor;
+        const newAdvisor = { ...advisor };
         delete newAdvisor.password;
         delete newAdvisor.__v;
         advisors.push(newAdvisor);
@@ -109,7 +97,7 @@ class AdvisorController {
   }
 
   static updateById(req, res) {
-    if (!req.params || !req.params.id || !req.body) {
+    if (!req.body) {
       return res.sendStatus(400);
     }
 

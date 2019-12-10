@@ -2,7 +2,7 @@ import * as mongoose from 'mongoose';
 
 const schema = new mongoose.Schema(
   {
-    licensePlate: { type: String },
+    licensePlate: { type: String, required: true, unique: true },
     brand: { type: String },
     model: { type: String },
     location: { type: String }

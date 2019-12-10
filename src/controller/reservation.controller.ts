@@ -36,8 +36,13 @@ class ReservationController {
     }, (err, result) => {
       if (err) {
         if (err === 'used') {
-          return res.status(409).send({ error: 'vehicle already reserved' });
+          return res.status(409).send('vehicle already reserved');
         }
+
+        if (err === 'vehicle not found') {
+          return res.status(409).send('Vehicle for this id not found')
+        }
+
         return res.sendStatus(500);
       }
       return res.status(201).send(result);
@@ -88,7 +93,7 @@ class ReservationController {
         return res.sendStatus(500)
       }
       if (result.deletedCount === 0) {
-        return res.status(401).send({ error: 'Not your reservation' });
+        return res.status(401).send('Not your reservation');
       }
       return res.sendStatus(200);
     });

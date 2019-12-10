@@ -3,9 +3,13 @@ import * as cors from 'cors';
 import * as dotenv from 'dotenv';
 import * as express from 'express';
 import * as mongoose from 'mongoose';
+import * as swaggerUi from 'swagger-ui-express';
+import * as YAML from 'yamljs';
 import { AuthController, LocationController } from './controller';
 import { AuthMiddleWare } from './middleware';
 import { AdvisorRoutes, AppointmentRoutes, AvailabilityRoutes, InvoiceRoutes, LocationRoutes, RequestRoutes, ReservationRoutes, VehicleRoutes } from './routes';
+
+const openApiDocumentation = YAML.load('./openapi.yaml');
 
 dotenv.config();
 const app = express();
@@ -36,10 +40,16 @@ app.use('/auth/request', RequestRoutes);
 app.use('/auth/vehicle', VehicleRoutes);
 app.use('/auth/reservation', ReservationRoutes);
 
+app.use(
+  '/swagger-ui',
+  swaggerUi.serve,
+  swaggerUi.setup(openApiDocumentation)
+);
+
 // ROUTE NOT FOUND
 app.use('*', (req, res) => {
   console.warn(`Called route: ${req.originalUrl} with method: ${req.method} not found`);
-  res.status(404).send({ code: 404, message: 'route not found' });
+  res.sendStatus(404);
 });
 
 // START THE SERVER

@@ -37,9 +37,6 @@ class AvailabilityController {
 
     AvailabilityService.getAvailabilityForFilter(filterObject, (err, result) => {
       if (err) {
-        if (err === 'not found') {
-          return res.sendStatus(404);
-        }
         return res.sendStatus(500);
       }
 

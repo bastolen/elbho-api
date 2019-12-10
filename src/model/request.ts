@@ -4,7 +4,7 @@ const advisors = new mongoose.Schema({
   advisor: { type: mongoose.Schema.Types.ObjectId, ref: 'Advisor' },
   accepted: { type: Boolean, default: false },
   responded: { type: Boolean, default: false }
-});
+}, { _id: false });
 
 const schema = new mongoose.Schema(
   {

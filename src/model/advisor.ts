@@ -8,10 +8,10 @@ const schema = new mongoose.Schema(
     phoneNumber: { type: String },
     active: { type: Boolean, default: true },
     status: { type: String },
-    location: { type: String },
+    location: { type: String, default: 'unknown, unknown' },
     workArea: { type: String },
     region: { type: String },
-    permissionLevel: { type: Number },
+    permissionLevel: { type: Number, default: 1 },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     lastPinged: { type: Date }

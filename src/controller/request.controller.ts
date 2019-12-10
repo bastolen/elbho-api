@@ -30,9 +30,7 @@ class RequestController {
       logo,
       cocNumber,
       cocName,
-      firstChoice,
-      secondChoice,
-      thirdChoice
+      advisors
     } = req.body;
 
     if (
@@ -49,18 +47,10 @@ class RequestController {
       !logo ||
       !cocNumber ||
       !cocName ||
-      !firstChoice
+      !advisors
     ) {
       return res.sendStatus(400);
     }
-    const advisors = [firstChoice];
-    if (secondChoice) {
-      advisors.push(secondChoice);
-    }
-    if (thirdChoice) {
-      advisors.push(thirdChoice);
-    }
-
     AppointmentService.newAppointment(
       {
         startTime,
@@ -76,14 +66,15 @@ class RequestController {
         logo,
         cocNumber,
         cocName,
-        firstChoice,
-        secondChoice,
-        thirdChoice
+        advisors
       },
       advisors,
       (err, result) => {
         if (err) {
-          return res.status(500).send(err);
+          if (err === 'no advisors included') {
+            return res.status(409).send('no advisors found for the included ids');
+          }
+          return res.sendStatus(500);
         }
         return res.status(201).send(result);
       }
@@ -105,6 +96,9 @@ class RequestController {
 
     AppointmentService.respondToRequest(appointmentId, advisorId, accept, (err) => {
       if (err) {
+        if (err === 'no request found') {
+          return res.status(409).send('no request found for this id');
+        }
         return res.status(500).send(err);
       }
 

@@ -1,5 +1,5 @@
 import * as async from 'async';
-import { Appointment, Request } from '../model';
+import { Advisor, Appointment, Request } from '../model';
 
 class AppointmentService {
   static getAppointmentsForFilter(filterObject, cb) {
@@ -7,9 +7,6 @@ class AppointmentService {
       [
         callback => Appointment.find(filterObject, callback).lean(),
         (result, callback) => {
-          if (!result) {
-            return callback('not found');
-          }
           return callback(undefined, result);
         },
       ],
@@ -24,17 +21,20 @@ class AppointmentService {
 
   static newAppointment(newAppointment, advisors, cb) {
     let appointmentId;
+    const advisorList = [];
     async.waterfall([
-      callback => new Appointment(newAppointment).save(callback),
+      callback => Advisor.find({ _id: { $in: advisors } }, callback).lean(),
+      (foundAdvisors, callback) => {
+        if (foundAdvisors.length === 0) {
+          return callback('no advisors included')
+        }
+        foundAdvisors.forEach(advisor => {
+          advisorList.push({ advisor: advisor._id });
+        });
+        new Appointment(newAppointment).save(callback);
+      },
       (appointment, callback) => {
         appointmentId = appointment._id;
-        const advisorList = [];
-
-        advisors.forEach(advisor => {
-          advisorList.push({
-            advisor
-          })
-        });
 
         new Request({
           appointment: appointment._id,
@@ -70,6 +70,9 @@ class AppointmentService {
       callback => Request.find({ appointment: appointmentId }, callback),
       (requests, callback) => {
         const request = requests[0];
+        if (!request) {
+          return callback('no request found')
+        }
         if (response) {
           request.accepted = true;
         }
