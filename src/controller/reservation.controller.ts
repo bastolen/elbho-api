@@ -46,6 +46,11 @@ class ReservationController {
 
   static getReservations(req, res) {
     let filter = {};
+
+    if (req.query && new Date(req.query.after).toString() !== 'Invalid Date') {
+      filter = { date: { $gte: new Date(req.query.after) } };
+    }
+
     if (req.query && new Date(req.query.date).toString() !== 'Invalid Date') {
       filter = { date: new Date(req.query.date) };
     }
