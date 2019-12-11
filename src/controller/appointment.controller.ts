@@ -1,3 +1,4 @@
+import * as mongoose from "mongoose";
 import { AppointmentService } from '../service';
 
 class AppointmentController {
@@ -11,6 +12,11 @@ class AppointmentController {
       return res.sendStatus(403);
     } else {
       advisor = req.advisor._id;
+    }
+
+
+    if (!mongoose.Types.ObjectId.isValid(advisor)) {
+      res.sendStatus(400);
     }
 
     let filterObject: any = {

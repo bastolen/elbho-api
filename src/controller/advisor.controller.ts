@@ -1,3 +1,4 @@
+import * as mongoose from 'mongoose';
 import { AdvisorService } from '../service';
 
 class AdvisorController {
@@ -72,6 +73,10 @@ class AdvisorController {
       id = req.advisor._id;
     }
 
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      res.sendStatus(400);
+    }
+
     AdvisorService.getById(id, (err, result) => {
       if (err) {
         if (err === 'not found') {
@@ -115,6 +120,10 @@ class AdvisorController {
       return res.sendStatus(403);
     } else {
       id = req.advisor._id;
+    }
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      res.sendStatus(400);
     }
 
     const newAdvisor = { ...req.body };

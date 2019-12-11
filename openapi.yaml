@@ -130,6 +130,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Advisor'
+        400:
+          $ref: '#/components/responses/BadRequest'
         403:
           $ref: '#/components/responses/Unauthorized'
         404:
@@ -212,6 +214,8 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Appointment'
+        400:
+          $ref: '#/components/responses/BadRequest'
         403:
           $ref: '#/components/responses/Unauthorized'
         500:
@@ -275,6 +279,8 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Availability'
+        400:
+          $ref: '#/components/responses/BadRequest'
         403:
           $ref: '#/components/responses/Unauthorized'
         500:
@@ -405,6 +411,8 @@ paths:
                   lat:
                     type: string
                     example: '2.00'
+        400:
+          $ref: '#/components/responses/BadRequest'
         403:
           $ref: '#/components/responses/Unauthorized'
         500:
@@ -458,6 +466,8 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Appointment'
+        400:
+          $ref: '#/components/responses/BadRequest'
         403:
          $ref: '#/components/responses/Unauthorized'
         500:
@@ -641,7 +651,8 @@ paths:
                     updatedAt:
                       type: string
                       example: '2019-12-07T17:00:46.694Z'
-
+        400:
+          $ref: '#/components/responses/BadRequest'
         403:
          $ref: '#/components/responses/Unauthorized'
         500:

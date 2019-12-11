@@ -1,3 +1,4 @@
+import * as mongoose from 'mongoose';
 import { ReservationService } from "../service";
 
 class ReservationController {
@@ -13,6 +14,10 @@ class ReservationController {
     } = req.body;
     if (!vehicle || !date || !start || !end) {
       return res.sendStatus(400);
+    }
+
+    if (!mongoose.Types.ObjectId.isValid(vehicle)) {
+      res.sendStatus(400);
     }
 
     if (
@@ -76,6 +81,10 @@ class ReservationController {
       return res.sendStatus(403);
     } else {
       advisor = req.advisor._id;
+    }
+
+    if (!mongoose.Types.ObjectId.isValid(advisor)) {
+      res.sendStatus(400);
     }
 
     let filter: { advisor, date?} = { advisor };

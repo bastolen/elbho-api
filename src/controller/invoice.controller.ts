@@ -1,3 +1,4 @@
+import * as mongoose from 'mongoose';
 import { InvoiceService } from "../service";
 
 class InvoiceController {
@@ -31,6 +32,10 @@ class InvoiceController {
       return res.sendStatus(403);
     } else {
       advisor = req.advisor._id;
+    }
+
+    if (!mongoose.Types.ObjectId.isValid(advisor)) {
+      res.sendStatus(400);
     }
 
     InvoiceService.getInvoicesForAdvisor(advisor, (err, result) => {

@@ -1,3 +1,4 @@
+import * as mongoose from 'mongoose';
 import { AppointmentService } from '../service';
 
 class RequestController {
@@ -9,6 +10,10 @@ class RequestController {
       return res.sendStatus(403);
     } else {
       advisor = req.advisor._id;
+    }
+
+    if (!mongoose.Types.ObjectId.isValid(advisor)) {
+      res.sendStatus(400);
     }
 
     AppointmentService.getAppointmentsForRequestAdvisor(advisor, (err, result) => {
@@ -81,6 +86,10 @@ class RequestController {
         if (err) {
           if (err === 'no advisors included') {
             return res.status(409).send('no advisors found for the included ids');
+          }
+
+          if (err === 'invalid id') {
+            return res.sendStatus(400);
           }
           return res.sendStatus(500);
         }
