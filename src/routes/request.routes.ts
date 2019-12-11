@@ -3,8 +3,8 @@ import { RequestController } from '../controller';
 
 const app = express();
 
-app.get('/:id', RequestController.getRequestForAdvisor);
+app.get('/:advisorId', RequestController.getRequestForAdvisor);
 app.post('', RequestController.createRequest);
-app.put('/:id', RequestController.updateRequest);
+app.put('/:appointmentId', RequestController.updateRequestForAppointment);
 
 export default app;

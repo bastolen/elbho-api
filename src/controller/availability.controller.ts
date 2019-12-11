@@ -2,13 +2,13 @@ import * as mongoose from 'mongoose';
 import { AvailabilityService } from "../service";
 
 class AvailabilityController {
-  static getAvailability(req, res) {
+  static getAvailabilityForAdvisor(req, res) {
     const { before, after } = req.query;
 
     let advisor: string;
-    if (req.params.id !== 'me' && req.advisor.permissionLevel > 1) {
-      advisor = req.params.id;
-    } else if (req.params.id !== 'me' && req.advisor.permissionLevel <= 1) {
+    if (req.params.advisorId !== 'me' && req.advisor.permissionLevel > 1) {
+      advisor = req.params.advisorId;
+    } else if (req.params.advisorId !== 'me' && req.advisor.permissionLevel <= 1) {
       return res.sendStatus(403);
     } else {
       advisor = req.advisor._id;

@@ -2,11 +2,11 @@ import * as mongoose from 'mongoose';
 import { AdvisorService } from '../service';
 
 class LocationController {
-  static getMyLocation(req, res) {
+  static getLocationForAdvisor(req, res) {
     let advisor: string;
-    if (req.params.id !== 'me' && req.advisor.permissionLevel > 1) {
-      advisor = req.params.id;
-    } else if (req.params.id !== 'me' && req.advisor.permissionLevel <= 1) {
+    if (req.params.advisorId !== 'me' && req.advisor.permissionLevel > 1) {
+      advisor = req.params.advisorId;
+    } else if (req.params.advisorId !== 'me' && req.advisor.permissionLevel <= 1) {
       return res.sendStatus(403);
     } else {
       advisor = req.advisor._id;

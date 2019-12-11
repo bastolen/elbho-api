@@ -4,9 +4,9 @@ import { AppointmentService } from '../service';
 class RequestController {
   static getRequestForAdvisor(req, res) {
     let advisor: string;
-    if (req.params.id !== 'me' && req.advisor.permissionLevel > 1) {
-      advisor = req.params.id;
-    } else if (req.params.id !== 'me' && req.advisor.permissionLevel <= 1) {
+    if (req.params.advisorId !== 'me' && req.advisor.permissionLevel > 1) {
+      advisor = req.params.advisorId;
+    } else if (req.params.advisorId !== 'me' && req.advisor.permissionLevel <= 1) {
       return res.sendStatus(403);
     } else {
       advisor = req.advisor._id;
@@ -27,6 +27,10 @@ class RequestController {
   static createRequest(req, res) {
     if (!req.body) {
       return res.sendStatus(400);
+    }
+
+    if (req.advisor.permissionLevel <= 1) {
+      return res.sendStatus(403);
     }
 
     const {
@@ -98,14 +102,14 @@ class RequestController {
     )
   }
 
-  static updateRequest(req, res) {
+  static updateRequestForAppointment(req, res) {
     if (!req.body) {
       return res.sendStatus(400);
     }
 
     const { accept } = req.body;
     const advisorId = req.advisor._id;
-    const appointmentId = req.params.id;
+    const { appointmentId } = req.params;
 
     if (typeof accept === 'undefined') {
       return res.sendStatus(400);
