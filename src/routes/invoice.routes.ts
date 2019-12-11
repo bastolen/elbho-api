@@ -36,6 +36,6 @@ const upload = multer({
 
 
 app.post('', upload.single('file'), InvoiceController.addInvoice)
-app.get('/:id', InvoiceController.getInvoiceForAdvisor)
+app.get('/:advisorId', InvoiceController.getInvoiceForAdvisor)
 
 export default app;

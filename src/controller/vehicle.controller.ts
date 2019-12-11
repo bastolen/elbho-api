@@ -6,6 +6,10 @@ class VehicleController {
       return res.sendStatus(400);
     }
 
+    if (req.advisor.permissionLevel <= 1) {
+      return res.sendStatus(403);
+    }
+
     const { licensePlate, brand, model, location } = req.body;
     if (!licensePlate || !brand || !model || !location) {
       return res.sendStatus(400);

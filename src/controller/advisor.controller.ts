@@ -3,6 +3,10 @@ import { AdvisorService } from '../service';
 
 class AdvisorController {
   static register(req, res) {
+    if (req.advisor.permissionLevel <= 1) {
+      return res.sendStatus(403);
+    }
+
     if (!req.body) {
       return res.sendStatus(400);
     }

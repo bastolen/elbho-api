@@ -5,7 +5,7 @@ const app = express();
 
 app.post('', ReservationController.createReservation);
 app.get('', ReservationController.getReservations);
-app.get('/:id', ReservationController.getReservationsForAdvisor);
+app.get('/:advisorId', ReservationController.getReservationsForAdvisor);
 app.delete('/:id', ReservationController.deleteReservation);
 
 export default app;

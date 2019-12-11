@@ -45,6 +45,7 @@ class AppointmentController {
     });
   }
 
+  /* DEPRECATED, used for testing */
   static createAppointment(req, res) {
     if (!req.body) {
       return res.sendStatus(400);

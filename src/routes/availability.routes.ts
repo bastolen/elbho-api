@@ -3,7 +3,7 @@ import { AvailabilityController } from '../controller/availability.controller';
 
 const app = express();
 
-app.get('/:id', AvailabilityController.getAvailability);
+app.get('/:advisorId', AvailabilityController.getAvailabilityForAdvisor);
 app.post('', AvailabilityController.setAvailability);
 
 export default app;
