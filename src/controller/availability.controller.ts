@@ -3,9 +3,18 @@ import { AvailabilityService } from "../service";
 class AvailabilityController {
   static getAvailability(req, res) {
     const { before, after } = req.query;
-    const advisorId = req.params.id === 'me' ? req.advisor._id : req.params.id;
+
+    let advisor: string;
+    if (req.params.id !== 'me' && req.advisor.permissionLevel > 1) {
+      advisor = req.params.id;
+    } else if (req.params.id !== 'me' && req.advisor.permissionLevel <= 1) {
+      return res.sendStatus(403);
+    } else {
+      advisor = req.advisor._id;
+    }
+
     const filterObject = {
-      advisor: advisorId
+      advisor
     };
 
     let beforeDate;

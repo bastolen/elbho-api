@@ -3,9 +3,18 @@ import { AppointmentService } from '../service';
 class AppointmentController {
   static getAppointmentsForId(req, res) {
     const { before, after, limit, page } = req.query;
-    const advisorId = req.params.advisorId === 'me' ? req.advisor._id : req.params.advisorId;
+
+    let advisor: string;
+    if (req.params.id !== 'me' && req.advisor.permissionLevel > 1) {
+      advisor = req.params.id;
+    } else if (req.params.id !== 'me' && req.advisor.permissionLevel <= 1) {
+      return res.sendStatus(403);
+    } else {
+      advisor = req.advisor._id;
+    }
+
     let filterObject: any = {
-      advisor: advisorId
+      advisor
     };
 
     if (before && new Date(before).toString() !== 'Invalid Date') {

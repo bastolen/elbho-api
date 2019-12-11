@@ -2,8 +2,16 @@ import { AdvisorService } from '../service';
 
 class LocationController {
   static getMyLocation(req, res) {
-    const id = req.params.id === 'me' ? req.advisor._id : req.params.id;
-    AdvisorService.getById(id, (err, result) => {
+    let advisor: string;
+    if (req.params.id !== 'me' && req.advisor.permissionLevel > 1) {
+      advisor = req.params.id;
+    } else if (req.params.id !== 'me' && req.advisor.permissionLevel <= 1) {
+      return res.sendStatus(403);
+    } else {
+      advisor = req.advisor._id;
+    }
+
+    AdvisorService.getById(advisor, (err, result) => {
       if (err) {
         return res.sendStatus(500);
       }

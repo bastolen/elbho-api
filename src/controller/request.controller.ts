@@ -2,8 +2,16 @@ import { AppointmentService } from '../service';
 
 class RequestController {
   static getRequestForAdvisor(req, res) {
-    const advisorId = req.params.id === 'me' ? req.advisor._id : req.params.id;
-    AppointmentService.getAppointmentsForRequestAdvisor(advisorId, (err, result) => {
+    let advisor: string;
+    if (req.params.id !== 'me' && req.advisor.permissionLevel > 1) {
+      advisor = req.params.id;
+    } else if (req.params.id !== 'me' && req.advisor.permissionLevel <= 1) {
+      return res.sendStatus(403);
+    } else {
+      advisor = req.advisor._id;
+    }
+
+    AppointmentService.getAppointmentsForRequestAdvisor(advisor, (err, result) => {
       if (err) {
         return res.status(500).send(err);
       }
