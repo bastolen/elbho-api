@@ -1,4 +1,5 @@
 import * as async from 'async';
+import * as mongoose from 'mongoose';
 import { Advisor, Appointment, Request } from '../model';
 
 class AppointmentService {
@@ -22,6 +23,15 @@ class AppointmentService {
   static newAppointment(newAppointment, advisors, cb) {
     let appointmentId;
     const advisorList = [];
+    let invalid = false;
+    advisors.forEach(adv => {
+      if (!mongoose.Types.ObjectId.isValid(adv)) {
+        invalid = true;
+      }
+    });
+    if (invalid) {
+      return cb('invalid id');
+    }
     async.waterfall([
       callback => Advisor.find({ _id: { $in: advisors } }, callback).lean(),
       (foundAdvisors, callback) => {

@@ -1,3 +1,4 @@
+import * as mongoose from 'mongoose';
 import { AdvisorService } from '../service';
 
 class LocationController {
@@ -9,6 +10,10 @@ class LocationController {
       return res.sendStatus(403);
     } else {
       advisor = req.advisor._id;
+    }
+
+    if (!mongoose.Types.ObjectId.isValid(advisor)) {
+      res.sendStatus(400);
     }
 
     AdvisorService.getById(advisor, (err, result) => {
