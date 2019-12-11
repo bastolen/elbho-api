@@ -63,7 +63,15 @@ class AdvisorController {
   }
 
   static getById(req, res) {
-    const id = req.params.id === 'me' ? req.advisor._id : req.params.id;
+    let id: string;
+    if (req.params.id !== 'me' && req.advisor.permissionLevel > 1) {
+      id = req.params.id;
+    } else if (req.params.id !== 'me' && req.advisor.permissionLevel <= 1) {
+      return res.sendStatus(403);
+    } else {
+      id = req.advisor._id;
+    }
+
     AdvisorService.getById(id, (err, result) => {
       if (err) {
         if (err === 'not found') {
@@ -100,28 +108,32 @@ class AdvisorController {
     if (!req.body) {
       return res.sendStatus(400);
     }
-
-    if (
-      req.advisor.permissionLevel === 2 ||
-      req.params.id === 'me' ||
-      req.advisor._id === req.params.id
-    ) {
-      const id = req.params.id === 'me' ? req.advisor._id : req.params.id;
-      AdvisorService.updateById(id, req.body, (err, result) => {
-        if (err) {
-          if (err === 'not found') {
-            return res.sendStatus(404);
-          }
-          return res.sendStatus(500);
-        }
-        const advisor = { ...result._doc };
-        delete advisor.password;
-        delete advisor.__v;
-        return res.send(advisor);
-      });
-    } else {
+    let id: string;
+    if (req.params.id !== 'me' && req.advisor.permissionLevel > 1) {
+      id = req.params.id;
+    } else if (req.params.id !== 'me' && req.advisor.permissionLevel <= 1) {
       return res.sendStatus(403);
+    } else {
+      id = req.advisor._id;
     }
+
+    const newAdvisor = { ...req.body };
+    if (newAdvisor.permissionLevel && req.advisor.permissionLevel <= 1) {
+      delete newAdvisor.permissionLevel;
+    }
+
+    AdvisorService.updateById(id, newAdvisor, (err, result) => {
+      if (err) {
+        if (err === 'not found') {
+          return res.sendStatus(404);
+        }
+        return res.sendStatus(500);
+      }
+      const advisor = { ...result._doc };
+      delete advisor.password;
+      delete advisor.__v;
+      return res.send(advisor);
+    });
   }
 }
 

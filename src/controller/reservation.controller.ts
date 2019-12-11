@@ -69,7 +69,14 @@ class ReservationController {
   }
 
   static getReservationsForAdvisor(req, res) {
-    const advisor = req.params.id === 'me' ? req.advisor._id : req.params.id;
+    let advisor: string;
+    if (req.params.id !== 'me' && req.advisor.permissionLevel > 1) {
+      advisor = req.params.id;
+    } else if (req.params.id !== 'me' && req.advisor.permissionLevel <= 1) {
+      return res.sendStatus(403);
+    } else {
+      advisor = req.advisor._id;
+    }
 
     let filter: { advisor, date?} = { advisor };
     if (req.query && new Date(req.query.after).toString() !== 'Invalid Date') {
