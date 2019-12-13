@@ -7,7 +7,16 @@ import * as swaggerUi from 'swagger-ui-express';
 import * as YAML from 'yamljs';
 import { AuthController, LocationController } from './controller';
 import { AuthMiddleWare } from './middleware';
-import { AdvisorRoutes, AppointmentRoutes, AvailabilityRoutes, InvoiceRoutes, LocationRoutes, RequestRoutes, ReservationRoutes, VehicleRoutes } from './routes';
+import {
+  AdvisorRoutes,
+  AppointmentRoutes,
+  AvailabilityRoutes,
+  InvoiceRoutes,
+  LocationRoutes,
+  RequestRoutes,
+  ReservationRoutes,
+  VehicleRoutes,
+} from './routes';
 
 const openApiDocumentation = YAML.load('./openapi.yaml');
 
@@ -19,7 +28,7 @@ const DBURL = process.env.DB || 'mongodb://localhost:27017/elbho';
 // MIDDLEWARE
 app.use(cors());
 app.options('*', cors());
-app.use(bodyParser.json())
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Routes
@@ -40,15 +49,13 @@ app.use('/auth/request', RequestRoutes);
 app.use('/auth/vehicle', VehicleRoutes);
 app.use('/auth/reservation', ReservationRoutes);
 
-app.use(
-  '/swagger-ui',
-  swaggerUi.serve,
-  swaggerUi.setup(openApiDocumentation)
-);
+app.use('/swagger-ui', swaggerUi.serve, swaggerUi.setup(openApiDocumentation));
 
 // ROUTE NOT FOUND
 app.use('*', (req, res) => {
-  console.warn(`Called route: ${req.originalUrl} with method: ${req.method} not found`);
+  console.warn(
+    `Called route: ${req.originalUrl} with method: ${req.method} not found`
+  );
   res.sendStatus(404);
 });
 
@@ -58,7 +65,7 @@ mongoose
     useNewUrlParser: true,
     useCreateIndex: true,
     useUnifiedTopology: true,
-    useFindAndModify: false
+    useFindAndModify: false,
   })
   .catch(() => console.error("Couldn't connect to the database"))
   .then(() => console.info(`Connected to the database!`));

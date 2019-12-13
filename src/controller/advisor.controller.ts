@@ -21,7 +21,7 @@ class AdvisorController {
       workArea,
       region,
       email,
-      password
+      password,
     } = req.body;
 
     if (
@@ -48,15 +48,13 @@ class AdvisorController {
       workArea,
       region,
       email,
-      password
+      password,
     };
 
     AdvisorService.registerAdvisor(newAdvisor, (err, result) => {
       if (err) {
         if (err.code === 11000) {
-          return res
-            .status(409)
-            .send(`Email ${email} is already in use`);
+          return res.status(409).send(`Email ${email} is already in use`);
         }
         return res.sendStatus(500);
       }

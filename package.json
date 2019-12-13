@@ -1,6 +1,6 @@
 {
   "name": "elbho-api-v2",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "",
   "main": "index.js",
   "repository": "https://github.com/bastolen/elbho-api",
@@ -51,10 +51,6 @@
     "nodemon": "^1.19.4",
     "prettier": "^1.19.1",
     "ts-node": "^8.5.2"
-  },
-  "prettier": {
-    "tabWidth": 2,
-    "singleQuote": true
   },
   "nodemonConfig": {
     "ignore": [

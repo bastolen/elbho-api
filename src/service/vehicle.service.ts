@@ -1,4 +1,4 @@
-import { Vehicle } from "../model";
+import { Vehicle } from '../model';
 
 class VehicleService {
   static create(vehicle, callback) {

@@ -1,17 +1,12 @@
 import * as mongoose from 'mongoose';
-import { ReservationService } from "../service";
+import { ReservationService } from '../service';
 
 class ReservationController {
   static createReservation(req, res) {
     if (!req.body) {
       return res.sendStatus(400);
     }
-    const {
-      vehicle,
-      date,
-      start,
-      end
-    } = req.body;
+    const { vehicle, date, start, end } = req.body;
     if (!vehicle || !date || !start || !end) {
       return res.sendStatus(400);
     }
@@ -32,26 +27,29 @@ class ReservationController {
     const startDate = new Date(start);
     const endDate = new Date(end);
     const advisor = req.advisor._id;
-    ReservationService.createReservation({
-      vehicle,
-      advisor,
-      date: dateDate,
-      start: startDate,
-      end: endDate
-    }, (err, result) => {
-      if (err) {
-        if (err === 'used') {
-          return res.status(409).send('vehicle already reserved');
-        }
+    ReservationService.createReservation(
+      {
+        vehicle,
+        advisor,
+        date: dateDate,
+        start: startDate,
+        end: endDate,
+      },
+      (err, result) => {
+        if (err) {
+          if (err === 'used') {
+            return res.status(409).send('vehicle already reserved');
+          }
 
-        if (err === 'vehicle not found') {
-          return res.status(409).send('Vehicle for this id not found')
-        }
+          if (err === 'vehicle not found') {
+            return res.status(409).send('Vehicle for this id not found');
+          }
 
-        return res.sendStatus(500);
+          return res.sendStatus(500);
+        }
+        return res.status(201).send(result);
       }
-      return res.status(201).send(result);
-    });
+    );
   }
 
   static getReservations(req, res) {
@@ -77,7 +75,10 @@ class ReservationController {
     let advisor: string;
     if (req.params.advisorId !== 'me' && req.advisor.permissionLevel > 1) {
       advisor = req.params.advisorId;
-    } else if (req.params.advisorId !== 'me' && req.advisor.permissionLevel <= 1) {
+    } else if (
+      req.params.advisorId !== 'me' &&
+      req.advisor.permissionLevel <= 1
+    ) {
       return res.sendStatus(403);
     } else {
       advisor = req.advisor._id;
@@ -87,7 +88,7 @@ class ReservationController {
       res.sendStatus(400);
     }
 
-    let filter: { advisor, date?} = { advisor };
+    let filter: { advisor; date? } = { advisor };
     if (req.query && new Date(req.query.after).toString() !== 'Invalid Date') {
       filter = { ...filter, date: { $gte: new Date(req.query.after) } };
     }
@@ -104,15 +105,19 @@ class ReservationController {
     const advisor = req.advisor._id;
     const reservation = req.params.id;
 
-    ReservationService.deleteReservation(advisor, reservation, (err, result) => {
-      if (err) {
-        return res.sendStatus(500)
+    ReservationService.deleteReservation(
+      advisor,
+      reservation,
+      (err, result) => {
+        if (err) {
+          return res.sendStatus(500);
+        }
+        if (result.deletedCount === 0) {
+          return res.status(401).send('Not your reservation');
+        }
+        return res.sendStatus(200);
       }
-      if (result.deletedCount === 0) {
-        return res.status(401).send('Not your reservation');
-      }
-      return res.sendStatus(200);
-    });
+    );
   }
 }
 

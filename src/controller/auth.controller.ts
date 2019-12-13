@@ -13,7 +13,7 @@ class AuthController {
     AuthService.login(email, password, (err, result) => {
       if (err || !result) {
         if (err === 'not found') {
-          console.log(`Tried logging in with the email: ${email}`)
+          console.log(`Tried logging in with the email: ${email}`);
           return res.sendStatus(403);
         }
         return res.sendStatus(403);

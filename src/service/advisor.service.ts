@@ -40,31 +40,32 @@ class AdvisorService {
   }
 
   static updateById(id, newAdvisor, cb) {
-    async.waterfall([
-      callback => {
-        if (newAdvisor.password) {
-          return helper.hashPassword(newAdvisor.password, callback);
+    async.waterfall(
+      [
+        callback => {
+          if (newAdvisor.password) {
+            return helper.hashPassword(newAdvisor.password, callback);
+          }
+          return callback(null, false);
+        },
+        (hash, callback) => {
+          const update = { ...newAdvisor };
+          if (hash) {
+            update.password = hash;
+          }
+          Advisor.findByIdAndUpdate(id, update, { new: true }, callback);
+        },
+      ],
+      (err, advisor) => {
+        if (err) {
+          return cb(err);
         }
-        return callback(null, false);
-      },
-      (hash, callback) => {
-        const update = { ...newAdvisor };
-        if (hash) {
-          update.password = hash;
+        if (!advisor) {
+          return cb('not found');
         }
-        Advisor.findByIdAndUpdate(id, update, { new: true }, callback);
+        return cb(undefined, advisor);
       }
-    ], (err, advisor) => {
-      if (err) {
-        return cb(err);
-      }
-      if (!advisor) {
-        return cb('not found');
-      }
-      return cb(undefined, advisor);
-    });
-
-
+    );
   }
 }
 

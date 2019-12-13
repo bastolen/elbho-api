@@ -6,10 +6,10 @@ const schema = new mongoose.Schema(
     fileName: { type: String },
     date: { type: Date, default: Date.now },
     filePath: { type: String },
-    invoiceMonth: { type: Date }
+    invoiceMonth: { type: Date },
   },
   {
-    timestamps: true
+    timestamps: true,
   }
 );
 
