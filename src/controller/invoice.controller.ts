@@ -1,5 +1,5 @@
 import * as mongoose from 'mongoose';
-import { InvoiceService } from "../service";
+import { InvoiceService } from '../service';
 
 class InvoiceController {
   static addInvoice(req, res) {
@@ -9,26 +9,35 @@ class InvoiceController {
 
     const { file } = req;
     const fileName = file.originalname;
-    const invoiceDate = req.body.date
-    const advisorId = req.advisor._id
+    const invoiceDate = req.body.date;
+    const advisorId = req.advisor._id;
 
     if (new Date(invoiceDate).toString() === 'Invalid Date') {
       return res.sendStatus(400);
     }
 
-    InvoiceService.addInvoice(advisorId, new Date(invoiceDate), fileName, file, (err, result) => {
-      if (err) {
-        return res.status(500).send(err);
+    InvoiceService.addInvoice(
+      advisorId,
+      new Date(invoiceDate),
+      fileName,
+      file,
+      (err, result) => {
+        if (err) {
+          return res.status(500).send(err);
+        }
+        return res.status(201).send(result);
       }
-      return res.status(201).send(result);
-    })
+    );
   }
 
   static getInvoiceForAdvisor(req, res) {
     let advisor: string;
     if (req.params.advisorId !== 'me' && req.advisor.permissionLevel > 1) {
       advisor = req.params.advisorId;
-    } else if (req.params.advisorId !== 'me' && req.advisor.permissionLevel <= 1) {
+    } else if (
+      req.params.advisorId !== 'me' &&
+      req.advisor.permissionLevel <= 1
+    ) {
       return res.sendStatus(403);
     } else {
       advisor = req.advisor._id;
@@ -43,7 +52,7 @@ class InvoiceController {
         return res.status(500).send(err);
       }
       return res.send(result);
-    })
+    });
   }
 }
 

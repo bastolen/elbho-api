@@ -14,10 +14,10 @@ const schema = new mongoose.Schema(
     permissionLevel: { type: Number, default: 1 },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
-    lastPinged: { type: Date }
+    lastPinged: { type: Date },
   },
   {
-    timestamps: true
+    timestamps: true,
   }
 );
 

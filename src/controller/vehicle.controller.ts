@@ -1,4 +1,4 @@
-import { VehicleService } from "../service";
+import { VehicleService } from '../service';
 
 class VehicleController {
   static createVehicle(req, res) {
@@ -15,17 +15,20 @@ class VehicleController {
       return res.sendStatus(400);
     }
 
-    VehicleService.create({ licensePlate, brand, model, location }, (err, result) => {
-      if (err) {
-        if (err.code === 11000) {
-          return res
-            .status(409)
-            .send(`Licenseplate ${licensePlate} is already in use`);
+    VehicleService.create(
+      { licensePlate, brand, model, location },
+      (err, result) => {
+        if (err) {
+          if (err.code === 11000) {
+            return res
+              .status(409)
+              .send(`Licenseplate ${licensePlate} is already in use`);
+          }
+          return res.sendStatus(500);
         }
-        return res.sendStatus(500);
+        return res.status(201).send(result);
       }
-      return res.status(201).send(result);
-    })
+    );
   }
 
   static getAll(req, res) {
@@ -40,9 +43,8 @@ class VehicleController {
         vehicles = vehicles.slice(offset * limit, (offset + 1) * limit);
       }
       return res.send(vehicles);
-    })
+    });
   }
-
 }
 
 export { VehicleController };

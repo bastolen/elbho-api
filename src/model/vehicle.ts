@@ -5,10 +5,10 @@ const schema = new mongoose.Schema(
     licensePlate: { type: String, required: true, unique: true },
     brand: { type: String },
     model: { type: String },
-    location: { type: String }
+    location: { type: String },
   },
   {
-    timestamps: true
+    timestamps: true,
   }
 );
 

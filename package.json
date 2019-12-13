@@ -52,10 +52,6 @@
     "prettier": "^1.19.1",
     "ts-node": "^8.5.2"
   },
-  "prettier": {
-    "tabWidth": 2,
-    "singleQuote": true
-  },
   "nodemonConfig": {
     "ignore": [
       "**/*.test.ts",

@@ -7,4 +7,13 @@ import { RequestController } from './request.controller';
 import { ReservationController } from './reservation.controller';
 import { VehicleController } from './vehicle.controller';
 
-export { AuthController, AdvisorController, LocationController, AppointmentController, RequestController, InvoiceController, VehicleController, ReservationController };
+export {
+  AuthController,
+  AdvisorController,
+  LocationController,
+  AppointmentController,
+  RequestController,
+  InvoiceController,
+  VehicleController,
+  ReservationController,
+};

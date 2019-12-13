@@ -7,4 +7,13 @@ import RequestRoutes from './request.routes';
 import ReservationRoutes from './reservation.routes';
 import VehicleRoutes from './vehicle.routes';
 
-export { AdvisorRoutes, AvailabilityRoutes, InvoiceRoutes, LocationRoutes, AppointmentRoutes, RequestRoutes, VehicleRoutes, ReservationRoutes };
+export {
+  AdvisorRoutes,
+  AvailabilityRoutes,
+  InvoiceRoutes,
+  LocationRoutes,
+  AppointmentRoutes,
+  RequestRoutes,
+  VehicleRoutes,
+  ReservationRoutes,
+};

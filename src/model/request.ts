@@ -1,10 +1,13 @@
 import * as mongoose from 'mongoose';
 
-const advisors = new mongoose.Schema({
-  advisor: { type: mongoose.Schema.Types.ObjectId, ref: 'Advisor' },
-  accepted: { type: Boolean, default: false },
-  responded: { type: Boolean, default: false }
-}, { _id: false });
+const advisors = new mongoose.Schema(
+  {
+    advisor: { type: mongoose.Schema.Types.ObjectId, ref: 'Advisor' },
+    accepted: { type: Boolean, default: false },
+    responded: { type: Boolean, default: false },
+  },
+  { _id: false }
+);
 
 const schema = new mongoose.Schema(
   {
@@ -12,10 +15,10 @@ const schema = new mongoose.Schema(
     accepted: { type: Boolean, default: false },
     currentAdvisorIndex: { type: Number, default: 0 },
     currentAdvisor: { type: mongoose.Schema.Types.ObjectId, ref: 'Advisor' },
-    advisors: [advisors]
+    advisors: [advisors],
   },
   {
-    timestamps: true
+    timestamps: true,
   }
 );
 

@@ -6,4 +6,12 @@ import { Request } from './request';
 import { Reservation } from './reservation';
 import { Vehicle } from './vehicle';
 
-export { Advisor, Request, Appointment, Invoice, Availability, Vehicle, Reservation };
+export {
+  Advisor,
+  Request,
+  Appointment,
+  Invoice,
+  Availability,
+  Vehicle,
+  Reservation,
+};

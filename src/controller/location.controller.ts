@@ -6,7 +6,10 @@ class LocationController {
     let advisor: string;
     if (req.params.advisorId !== 'me' && req.advisor.permissionLevel > 1) {
       advisor = req.params.advisorId;
-    } else if (req.params.advisorId !== 'me' && req.advisor.permissionLevel <= 1) {
+    } else if (
+      req.params.advisorId !== 'me' &&
+      req.advisor.permissionLevel <= 1
+    ) {
       return res.sendStatus(403);
     } else {
       advisor = req.advisor._id;
@@ -38,7 +41,7 @@ class LocationController {
       return res.sendStatus(400);
     }
     const location = `${lon}, ${lat}`;
-    const lastPinged = new Date()
+    const lastPinged = new Date();
     AdvisorService.updateById(id, { location, lastPinged }, (err, result) => {
       if (err) {
         return res.sendStatus(500);

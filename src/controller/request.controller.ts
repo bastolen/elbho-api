@@ -6,7 +6,10 @@ class RequestController {
     let advisor: string;
     if (req.params.advisorId !== 'me' && req.advisor.permissionLevel > 1) {
       advisor = req.params.advisorId;
-    } else if (req.params.advisorId !== 'me' && req.advisor.permissionLevel <= 1) {
+    } else if (
+      req.params.advisorId !== 'me' &&
+      req.advisor.permissionLevel <= 1
+    ) {
       return res.sendStatus(403);
     } else {
       advisor = req.advisor._id;
@@ -16,12 +19,15 @@ class RequestController {
       res.sendStatus(400);
     }
 
-    AppointmentService.getAppointmentsForRequestAdvisor(advisor, (err, result) => {
-      if (err) {
-        return res.status(500).send(err);
+    AppointmentService.getAppointmentsForRequestAdvisor(
+      advisor,
+      (err, result) => {
+        if (err) {
+          return res.status(500).send(err);
+        }
+        return res.send(result);
       }
-      return res.send(result);
-    });
+    );
   }
 
   static createRequest(req, res) {
@@ -47,7 +53,7 @@ class RequestController {
       logo,
       cocNumber,
       cocName,
-      advisors
+      advisors,
     } = req.body;
 
     if (
@@ -83,13 +89,15 @@ class RequestController {
         logo,
         cocNumber,
         cocName,
-        advisors
+        advisors,
       },
       advisors,
       (err, result) => {
         if (err) {
           if (err === 'no advisors included') {
-            return res.status(409).send('no advisors found for the included ids');
+            return res
+              .status(409)
+              .send('no advisors found for the included ids');
           }
 
           if (err === 'invalid id') {
@@ -99,7 +107,7 @@ class RequestController {
         }
         return res.status(201).send(result);
       }
-    )
+    );
   }
 
   static updateRequestForAppointment(req, res) {
@@ -115,16 +123,22 @@ class RequestController {
       return res.sendStatus(400);
     }
 
-    AppointmentService.respondToRequest(appointmentId, advisorId, accept, (err) => {
-      if (err) {
-        if (err === 'no request found') {
-          return res.status(409).send('no request found for this id');
+    AppointmentService.respondToRequest(
+      appointmentId,
+      advisorId,
+      accept,
+      err => {
+        if (err) {
+          if (err === 'no request found') {
+            return res.status(409).send('no request found for this id');
+          }
+          console.log('request.controller.ts:135 | : ', err);
+          return res.status(500).send(err);
         }
-        return res.status(500).send(err);
-      }
 
-      return res.sendStatus(202);
-    })
+        return res.sendStatus(202);
+      }
+    );
   }
 }
 

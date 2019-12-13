@@ -15,10 +15,10 @@ const schema = new mongoose.Schema(
     logo: { type: String },
     cocNumber: { type: String },
     cocName: { type: String },
-    advisor: { type: mongoose.Schema.Types.ObjectId, ref: 'Advisor' }
+    advisor: { type: mongoose.Schema.Types.ObjectId, ref: 'Advisor' },
   },
   {
-    timestamps: true
+    timestamps: true,
   }
 );
 

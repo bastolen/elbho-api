@@ -1,5 +1,5 @@
 import * as mongoose from 'mongoose';
-import { AvailabilityService } from "../service";
+import { AvailabilityService } from '../service';
 
 class AvailabilityController {
   static getAvailabilityForAdvisor(req, res) {
@@ -8,7 +8,10 @@ class AvailabilityController {
     let advisor: string;
     if (req.params.advisorId !== 'me' && req.advisor.permissionLevel > 1) {
       advisor = req.params.advisorId;
-    } else if (req.params.advisorId !== 'me' && req.advisor.permissionLevel <= 1) {
+    } else if (
+      req.params.advisorId !== 'me' &&
+      req.advisor.permissionLevel <= 1
+    ) {
       return res.sendStatus(403);
     } else {
       advisor = req.advisor._id;
@@ -19,7 +22,7 @@ class AvailabilityController {
     }
 
     const filterObject = {
-      advisor
+      advisor,
     };
 
     let beforeDate;
@@ -49,13 +52,16 @@ class AvailabilityController {
       filterObject.date = filter;
     }
 
-    AvailabilityService.getAvailabilityForFilter(filterObject, (err, result) => {
-      if (err) {
-        return res.sendStatus(500);
-      }
+    AvailabilityService.getAvailabilityForFilter(
+      filterObject,
+      (err, result) => {
+        if (err) {
+          return res.sendStatus(500);
+        }
 
-      return res.status(200).send(result);
-    })
+        return res.status(200).send(result);
+      }
+    );
   }
 
   static setAvailability(req, res) {
@@ -70,13 +76,17 @@ class AvailabilityController {
       return res.sendStatus(400);
     }
 
-    AvailabilityService.setAvailabilityForAdvisor(advisorId, availabilities, (err) => {
-      if (err) {
-        return res.status(500).send(err);
-      }
+    AvailabilityService.setAvailabilityForAdvisor(
+      advisorId,
+      availabilities,
+      err => {
+        if (err) {
+          return res.status(500).send(err);
+        }
 
-      return res.sendStatus(201);
-    });
+        return res.sendStatus(201);
+      }
+    );
   }
 }
 
