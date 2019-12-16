@@ -13,6 +13,7 @@ const schema = new mongoose.Schema(
   {
     appointment: { type: mongoose.Schema.Types.ObjectId, ref: 'Appointment' },
     accepted: { type: Boolean, default: false },
+    allResponded: { type: Boolean, default: false },
     currentAdvisorIndex: { type: Number, default: 0 },
     currentAdvisor: { type: mongoose.Schema.Types.ObjectId, ref: 'Advisor' },
     advisors: [advisors],

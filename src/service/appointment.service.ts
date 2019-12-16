@@ -68,7 +68,7 @@ class AppointmentService {
       [
         callback =>
           Request.find(
-            { currentAdvisor: advisorId, accepted: false },
+            { currentAdvisor: advisorId, accepted: false, allResponded: false },
             callback
           ).lean(),
         (requests, callback) => {
@@ -109,10 +109,14 @@ class AppointmentService {
             if (advisor.advisor.equals(advisorId)) {
               newAdvisor.accepted = response;
               newAdvisor.responded = true;
-              request.currentAdvisorIndex = index;
+              request.currentAdvisorIndex = index + 1;
             }
             newAdvisors.push(newAdvisor);
           });
+          if (request.currentAdvisorIndex + 1 >= request.advisors.length) {
+            request.allResponded = true;
+          }
+
           request.advisors = newAdvisors;
 
           Request.findByIdAndUpdate(request._id, request, callback);
