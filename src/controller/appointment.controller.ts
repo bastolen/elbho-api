@@ -8,14 +8,17 @@ class AppointmentController {
     let advisor: string;
     if (req.params.id !== 'me' && req.advisor.permissionLevel > 1) {
       advisor = req.params.id;
+      console.log('appointment.controller.ts:11 | 1: ', advisor);
     } else if (req.params.id !== 'me' && req.advisor.permissionLevel <= 1) {
+      console.log('appointment.controller.ts:13 | : 2', 'NOT ALLOWED');
       return res.sendStatus(403);
     } else {
       advisor = req.advisor._id;
+      console.log('appointment.controller.ts:17 | 3: ', advisor);
     }
 
     if (!mongoose.Types.ObjectId.isValid(advisor)) {
-      res.sendStatus(400);
+      return res.sendStatus(400);
     }
 
     let filterObject: any = {
