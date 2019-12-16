@@ -104,7 +104,9 @@ class ReservationService {
             vehicleIds.push(reservation.vehicle);
           });
 
-          Vehicle.find({ _id: { $in: vehicleIds } }, callback).lean();
+          Vehicle.find({ _id: { $in: vehicleIds } }, callback)
+            .sort({ start: 1 })
+            .lean();
         },
         (result, callback) => {
           const vehicles = [...result];

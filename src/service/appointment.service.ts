@@ -6,7 +6,10 @@ class AppointmentService {
   static getAppointmentsForFilter(filterObject, cb) {
     async.waterfall(
       [
-        callback => Appointment.find(filterObject, callback).lean(),
+        callback =>
+          Appointment.find(filterObject, callback)
+            .sort({ startTime: 1 })
+            .lean(),
         (result, callback) => {
           return callback(undefined, result);
         },
