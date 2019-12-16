@@ -134,7 +134,6 @@ class RequestController {
           if (err === 'no request found') {
             return res.status(409).send('no request found for this id');
           }
-          console.log('request.controller.ts:135 | : ', err);
           return res.status(500).send(err);
         }
 
