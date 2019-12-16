@@ -121,12 +121,16 @@ class AppointmentService {
 
           Request.findByIdAndUpdate(request._id, request, callback);
         },
-        (request, callback) =>
-          Appointment.findByIdAndUpdate(
-            appointmentId,
-            { advisor: advisorId },
-            callback
-          ),
+        (request, callback) => {
+          if (response) {
+            return Appointment.findByIdAndUpdate(
+              appointmentId,
+              { advisor: advisorId },
+              callback
+            );
+          }
+          return callback(undefined, 'not accepted');
+        },
       ],
       cb
     );
