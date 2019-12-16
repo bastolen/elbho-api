@@ -25,7 +25,6 @@ class AppointmentController {
     let filterObject: any = {
       advisor,
     };
-    console.log('appointment.controller.ts:29 | : ', filterObject);
 
     if (before && new Date(before).toString() !== 'Invalid Date') {
       filterObject = { ...filterObject, endTime: { $gte: new Date(before) } };
