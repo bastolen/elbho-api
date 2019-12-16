@@ -27,7 +27,7 @@ class AppointmentController {
     };
 
     if (before && new Date(before).toString() !== 'Invalid Date') {
-      filterObject = { ...filterObject, endTime: { $gte: new Date(before) } };
+      filterObject = { ...filterObject, endTime: { $lte: new Date(before) } };
     }
 
     if (after && new Date(after).toString() !== 'Invalid Date') {
