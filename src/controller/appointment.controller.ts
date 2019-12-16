@@ -6,16 +6,19 @@ class AppointmentController {
     const { before, after, limit, page } = req.query;
 
     let advisor: string;
-    if (req.params.id !== 'me' && req.advisor.permissionLevel > 1) {
-      advisor = req.params.id;
-    } else if (req.params.id !== 'me' && req.advisor.permissionLevel <= 1) {
+    if (req.params.advisorId !== 'me' && req.advisor.permissionLevel > 1) {
+      advisor = req.params.advisoradvisorId;
+    } else if (
+      req.params.advisorId !== 'me' &&
+      req.advisor.permissionLevel <= 1
+    ) {
       return res.sendStatus(403);
     } else {
       advisor = req.advisor._id;
     }
 
     if (!mongoose.Types.ObjectId.isValid(advisor)) {
-      res.sendStatus(400);
+      return res.sendStatus(400);
     }
 
     let filterObject: any = {
