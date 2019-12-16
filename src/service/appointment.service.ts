@@ -25,7 +25,7 @@ class AppointmentService {
     const advisorList = [];
     let invalid = false;
     advisors.forEach(adv => {
-      if (!mongoose.Types.ObjectId.isValid(adv)) {
+      if (!mongoose.Types.ObjectId.isValid(new mongoose.Types.ObjectId(adv))) {
         invalid = true;
       }
     });

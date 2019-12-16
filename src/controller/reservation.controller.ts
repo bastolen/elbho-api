@@ -11,7 +11,9 @@ class ReservationController {
       return res.sendStatus(400);
     }
 
-    if (!mongoose.Types.ObjectId.isValid(vehicle)) {
+    if (
+      !mongoose.Types.ObjectId.isValid(new mongoose.Types.ObjectId(vehicle))
+    ) {
       res.sendStatus(400);
     }
 
@@ -84,7 +86,9 @@ class ReservationController {
       advisor = req.advisor._id;
     }
 
-    if (!mongoose.Types.ObjectId.isValid(advisor)) {
+    if (
+      !mongoose.Types.ObjectId.isValid(new mongoose.Types.ObjectId(advisor))
+    ) {
       res.sendStatus(400);
     }
 

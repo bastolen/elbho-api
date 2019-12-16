@@ -75,7 +75,7 @@ class AdvisorController {
       id = req.advisor._id;
     }
 
-    if (!mongoose.Types.ObjectId.isValid(id)) {
+    if (!mongoose.Types.ObjectId.isValid(new mongoose.Types.ObjectId(id))) {
       res.sendStatus(400);
     }
 
@@ -124,7 +124,7 @@ class AdvisorController {
       id = req.advisor._id;
     }
 
-    if (!mongoose.Types.ObjectId.isValid(id)) {
+    if (!mongoose.Types.ObjectId.isValid(new mongoose.Types.ObjectId(id))) {
       res.sendStatus(400);
     }
 

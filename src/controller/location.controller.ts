@@ -15,7 +15,9 @@ class LocationController {
       advisor = req.advisor._id;
     }
 
-    if (!mongoose.Types.ObjectId.isValid(advisor)) {
+    if (
+      !mongoose.Types.ObjectId.isValid(new mongoose.Types.ObjectId(advisor))
+    ) {
       res.sendStatus(400);
     }
 
