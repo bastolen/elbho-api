@@ -6,6 +6,7 @@ const schema = new mongoose.Schema(
     brand: { type: String },
     model: { type: String },
     location: { type: String },
+    image: { type: String },
   },
   {
     timestamps: true,
