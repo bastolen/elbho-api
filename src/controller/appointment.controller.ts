@@ -7,7 +7,7 @@ class AppointmentController {
 
     let advisor: string;
     if (req.params.advisorId !== 'me' && req.advisor.permissionLevel > 1) {
-      advisor = req.params.advisoradvisorId;
+      advisor = req.params.advisorId;
     } else if (
       req.params.advisorId !== 'me' &&
       req.advisor.permissionLevel <= 1
@@ -16,14 +16,16 @@ class AppointmentController {
     } else {
       advisor = req.advisor._id;
     }
-
-    if (!mongoose.Types.ObjectId.isValid(advisor)) {
+    if (
+      !mongoose.Types.ObjectId.isValid(new mongoose.Types.ObjectId(advisor))
+    ) {
       return res.sendStatus(400);
     }
 
     let filterObject: any = {
       advisor,
     };
+    console.log('appointment.controller.ts:29 | : ', filterObject);
 
     if (before && new Date(before).toString() !== 'Invalid Date') {
       filterObject = { ...filterObject, endTime: { $gte: new Date(before) } };
