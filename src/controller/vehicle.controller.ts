@@ -10,13 +10,13 @@ class VehicleController {
       return res.sendStatus(403);
     }
 
-    const { licensePlate, brand, model, location } = req.body;
-    if (!licensePlate || !brand || !model || !location) {
+    const { licensePlate, brand, model, location, image } = req.body;
+    if (!licensePlate || !brand || !model || !location || !image) {
       return res.sendStatus(400);
     }
 
     VehicleService.create(
-      { licensePlate, brand, model, location },
+      { licensePlate, brand, model, location, image },
       (err, result) => {
         if (err) {
           if (err.code === 11000) {

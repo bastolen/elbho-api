@@ -6,7 +6,7 @@ class VehicleService {
   }
 
   static getAll(callback) {
-    Vehicle.find(callback);
+    Vehicle.find(callback).lean();
   }
 }
 
