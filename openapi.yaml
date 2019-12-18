@@ -1034,6 +1034,9 @@ components:
         image:
           type: string
           example: 'https://example.com/link/to/image.png'
+        transmission:
+          type: string
+          example: Automaat
   responses:
     Unauthorized:
       description: Forbidden
