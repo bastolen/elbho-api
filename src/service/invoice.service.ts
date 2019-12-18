@@ -6,7 +6,7 @@ import * as path from 'path';
 import { Invoice } from '../model';
 
 class InvoiceService {
-  static addInvoice(advisorId, date, fileName, file, cb) {
+  static addInvoice(advisor, date, fileName, file, cb) {
     let newId;
     let newUrl;
 
@@ -14,7 +14,7 @@ class InvoiceService {
       [
         callback => {
           const invoice = new Invoice({
-            advisorId,
+            advisor,
             fileName,
             filePath: 'Not yet saved',
             invoiceMonth: date,
