@@ -4,6 +4,7 @@ const schema = new mongoose.Schema(
   {
     licensePlate: { type: String, required: true, unique: true },
     brand: { type: String },
+    transmission: { type: String, default: 'Automaat' },
     model: { type: String },
     location: { type: String },
     image: { type: String },
