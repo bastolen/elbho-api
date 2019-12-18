@@ -1,6 +1,6 @@
 {
   "name": "elbho-api-v2",
-  "version": "0.6.1",
+  "version": "0.6.3",
   "description": "",
   "main": "index.js",
   "repository": "https://github.com/bastolen/elbho-api",
@@ -12,8 +12,12 @@
     "prod": "rm -rf dist && tsc && node ./dist/app.js",
     "build": "tsc"
   },
-  "author": "",
+  "author": "Bas Tolen",
   "license": "ISC",
+  "engines": {
+    "npm": "6.12.1",
+    "node": "10.16.0"
+  },
   "dependencies": {
     "async": "^3.1.0",
     "axios": "^0.19.0",
