@@ -68,8 +68,8 @@ class InvoiceService {
     );
   }
 
-  static getInvoicesForAdvisor(advisorId, callback) {
-    Invoice.find(advisorId, callback).lean();
+  static getInvoicesForAdvisor(advisor, callback) {
+    Invoice.find({ advisor }, callback).lean();
   }
 }
 
