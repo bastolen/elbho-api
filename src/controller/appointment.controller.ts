@@ -24,14 +24,21 @@ class AppointmentController {
 
     let filterObject: any = {
       advisor,
+      endTime: { $exists: true },
     };
 
     if (before && new Date(before).toString() !== 'Invalid Date') {
-      filterObject = { ...filterObject, endTime: { $lte: new Date(before) } };
+      filterObject = {
+        ...filterObject,
+        endTime: { ...filterObject.endTime, $lte: new Date(before) },
+      };
     }
 
     if (after && new Date(after).toString() !== 'Invalid Date') {
-      filterObject = { ...filterObject, startTime: { $gte: new Date(after) } };
+      filterObject = {
+        ...filterObject,
+        endTime: { ...filterObject.endTime, $gte: new Date(before) },
+      };
     }
 
     AppointmentService.getAppointmentsForFilter(filterObject, (err, result) => {
