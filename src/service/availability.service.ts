@@ -44,8 +44,8 @@ class AvailabilityService {
           end: endObject,
         };
 
-        Availability.update(
-          { date: dateObject },
+        Availability.updateOne(
+          { date: dateObject, advisor: advisorId },
           newAvailability,
           { upsert: true, setDefaultsOnInsert: true },
           callback
