@@ -91,11 +91,14 @@ class ReservationService {
     );
   }
 
-  static getReservationsWithVehicles(filter, cb) {
+  static getReservationsWithVehicles(filter, sort: 'ASC' | 'DESC', cb) {
     let reservations;
     async.waterfall(
       [
-        callback => Reservation.find(filter, callback).lean(),
+        callback =>
+          Reservation.find(filter, callback)
+            .sort({ start: sort === 'ASC' ? 1 : -1 })
+            .lean(),
         (result, callback) => {
           reservations = [...result];
 
@@ -104,9 +107,7 @@ class ReservationService {
             vehicleIds.push(reservation.vehicle);
           });
 
-          Vehicle.find({ _id: { $in: vehicleIds } }, callback)
-            .sort({ start: 1 })
-            .lean();
+          Vehicle.find({ _id: { $in: vehicleIds } }, callback).lean();
         },
         (result, callback) => {
           const vehicles = [...result];

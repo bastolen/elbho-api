@@ -3,12 +3,12 @@ import * as mongoose from 'mongoose';
 import { Advisor, Appointment, Request } from '../model';
 
 class AppointmentService {
-  static getAppointmentsForFilter(filterObject, cb) {
+  static getAppointmentsForFilter(filterObject, sort: 'ASC' | 'DESC', cb) {
     async.waterfall(
       [
         callback =>
           Appointment.find(filterObject, callback)
-            .sort({ startTime: 1 })
+            .sort({ startTime: sort === 'ASC' ? 1 : -1 })
             .lean(),
         (result, callback) => {
           return callback(undefined, result);
@@ -82,6 +82,7 @@ class AppointmentService {
 
           this.getAppointmentsForFilter(
             { _id: { $in: appointmentIds } },
+            'ASC',
             callback
           );
         },

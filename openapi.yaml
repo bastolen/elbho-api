@@ -205,6 +205,13 @@ paths:
           schema:
             type: string
             example: '2019-12-07T17:00:46.694Z'
+        - in: query
+          name: sort
+          schema:
+            type: string
+            enum:
+              - ASC
+              - DESC
       responses:
         200:
           description: OK
@@ -618,6 +625,13 @@ paths:
           schema:
             type: string
             example: '2019-12-07T17:00:46.694Z'
+        - in: query
+          name: sort
+          schema:
+            type: string
+            enum:
+              - ASC
+              - DESC
       responses:
         200:
           description: OK

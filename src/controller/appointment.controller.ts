@@ -3,7 +3,7 @@ import { AppointmentService } from '../service';
 
 class AppointmentController {
   static getAppointmentsForId(req, res) {
-    const { before, after, limit, page } = req.query;
+    const { before, after, limit, page, sort } = req.query;
 
     let advisor: string;
     if (req.params.advisorId !== 'me' && req.advisor.permissionLevel > 1) {
@@ -40,19 +40,27 @@ class AppointmentController {
         endTime: { ...filterObject.endTime, $gte: new Date(after) },
       };
     }
+    const sortPrepared = sort && sort.toUpperCase() === 'DESC' ? 'DESC' : 'ASC';
 
-    AppointmentService.getAppointmentsForFilter(filterObject, (err, result) => {
-      if (err) {
-        return res.sendStatus(500);
-      }
-      let appointments = [...result];
-      if (limit && !Number.isNaN(+limit)) {
-        const offset = page && !Number.isNaN(+page) ? page : 0;
-        appointments = appointments.slice(offset * limit, (offset + 1) * limit);
-      }
+    AppointmentService.getAppointmentsForFilter(
+      filterObject,
+      sortPrepared,
+      (err, result) => {
+        if (err) {
+          return res.sendStatus(500);
+        }
+        let appointments = [...result];
+        if (limit && !Number.isNaN(+limit)) {
+          const offset = page && !Number.isNaN(+page) ? page : 0;
+          appointments = appointments.slice(
+            offset * limit,
+            (offset + 1) * limit
+          );
+        }
 
-      return res.status(200).send(appointments);
-    });
+        return res.status(200).send(appointments);
+      }
+    );
   }
 
   /* DEPRECATED, used for testing */
