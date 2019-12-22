@@ -97,12 +97,21 @@ class ReservationController {
       filter = { ...filter, date: { $gte: new Date(req.query.after) } };
     }
 
-    ReservationService.getReservationsWithVehicles(filter, (err, result) => {
-      if (err) {
-        return res.sendStatus(500);
+    const sort =
+      req.query && req.query.sort && req.query.sort.toUpperCase() === 'DESC'
+        ? 'DESC'
+        : 'ASC';
+
+    ReservationService.getReservationsWithVehicles(
+      filter,
+      sort,
+      (err, result) => {
+        if (err) {
+          return res.sendStatus(500);
+        }
+        return res.send(result);
       }
-      return res.send(result);
-    });
+    );
   }
 
   static deleteReservation(req, res) {
