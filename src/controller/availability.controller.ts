@@ -23,7 +23,7 @@ class AvailabilityController {
       res.sendStatus(400);
     }
 
-    const filterObject = {
+    let filterObject: { advisor: string; date?: any } = {
       advisor,
     };
 
@@ -37,21 +37,24 @@ class AvailabilityController {
       afterDate = new Date(after);
     }
 
-    let filter;
     if (beforeDate && afterDate) {
       // both
-      filter = { $gte: afterDate, $lte: beforeDate };
+      filterObject = {
+        ...filterObject,
+        date: { $gte: afterDate, $lte: beforeDate },
+      };
     } else if (beforeDate && !afterDate) {
       // only before
-      filter = { $lte: beforeDate };
+      filterObject = {
+        ...filterObject,
+        date: { $lte: beforeDate },
+      };
     } else if (afterDate && !beforeDate) {
       // only after
-      filter = { $gte: afterDate };
-    }
-
-    if (filter) {
-      // @ts-ignore
-      filterObject.date = filter;
+      filterObject = {
+        ...filterObject,
+        date: { $gte: afterDate },
+      };
     }
 
     AvailabilityService.getAvailabilityForFilter(

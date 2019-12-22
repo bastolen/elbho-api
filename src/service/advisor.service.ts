@@ -53,7 +53,7 @@ class AdvisorService {
           if (hash) {
             update.password = hash;
           }
-          Advisor.findByIdAndUpdate(id, update, { new: true }, callback);
+          Advisor.findByIdAndUpdate(id, update, { new: true }, callback).lean();
         },
       ],
       (err, advisor) => {
