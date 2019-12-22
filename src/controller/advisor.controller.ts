@@ -58,7 +58,7 @@ class AdvisorController {
         }
         return res.sendStatus(500);
       }
-      const advisor = result._doc;
+      const advisor = result;
       delete advisor.password;
       delete advisor.__v;
       return res.status(201).send(advisor);
@@ -140,7 +140,7 @@ class AdvisorController {
         }
         return res.sendStatus(500);
       }
-      const advisor = { ...result._doc };
+      const advisor = { ...result };
       delete advisor.password;
       delete advisor.__v;
       return res.send(advisor);
