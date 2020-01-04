@@ -238,9 +238,13 @@ paths:
         content:
           application/json:
             schema:
-              type: array
-              items:
-                $ref: '#/components/schemas/Availability'
+              type: object
+              properties:
+                availabilities:
+                  schema:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/Availability'
       responses:
         201:
           description: Created
