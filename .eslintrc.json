@@ -32,12 +32,21 @@
     ],
     "no-useless-constructor": "off",
     "@typescript-eslint/no-useless-constructor": "error",
-    "no-empty-function": ["error", { "allow": ["constructors"] }]
+    "no-empty-function": ["error", { "allow": ["constructors"] }],
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        "js": "never",
+        "ts": "never"
+      }
+    ]
   },
   "settings": {
+    "import/extensions": [".js", ".ts"],
     "import/resolver": {
       "node": {
-        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+        "extensions": [".js", ".ts"]
       }
     }
   }
