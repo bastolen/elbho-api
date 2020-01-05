@@ -11,7 +11,8 @@ class AvailabilityService {
       availabilities,
       10,
       (availability: any, callback) => {
-        console.log('availability.service.ts:14 | : ', availability);
+        console.log('availability.service.ts:14 | : ', availability.start);
+        console.log('availability.service.ts:15 | : ', typeof availability);
         const { date, start, end } = availability;
         if (!date || !start || !end) {
           console.log('availability.service.ts:17');
