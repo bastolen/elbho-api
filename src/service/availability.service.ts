@@ -13,6 +13,7 @@ class AvailabilityService {
       (availability: any, callback) => {
         const { date, start, end } = availability;
         if (!date || !start || !end) {
+          console.log('availability.service.ts:16');
           return callback(null);
         }
 
@@ -20,6 +21,7 @@ class AvailabilityService {
         if (date && new Date(date).toString() !== 'Invalid Date') {
           dateObject = new Date(date);
         } else {
+          console.log('availability.service.ts:24');
           return callback(null);
         }
 
@@ -27,6 +29,7 @@ class AvailabilityService {
         if (start && new Date(start).toString() !== 'Invalid Date') {
           startObject = new Date(start);
         } else {
+          console.log('availability.service.ts:32');
           return callback(null);
         }
 
@@ -34,6 +37,7 @@ class AvailabilityService {
         if (end && new Date(end).toString() !== 'Invalid Date') {
           endObject = new Date(end);
         } else {
+          console.log('availability.service.ts:40');
           return callback(null);
         }
 
