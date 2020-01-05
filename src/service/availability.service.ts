@@ -11,9 +11,10 @@ class AvailabilityService {
       availabilities,
       10,
       (availability: any, callback) => {
+        console.log('availability.service.ts:14 | : ', availability);
         const { date, start, end } = availability;
         if (!date || !start || !end) {
-          console.log('availability.service.ts:16');
+          console.log('availability.service.ts:17');
           return callback(null);
         }
 
@@ -21,7 +22,7 @@ class AvailabilityService {
         if (date && new Date(date).toString() !== 'Invalid Date') {
           dateObject = new Date(date);
         } else {
-          console.log('availability.service.ts:24');
+          console.log('availability.service.ts:25');
           return callback(null);
         }
 
@@ -29,7 +30,7 @@ class AvailabilityService {
         if (start && new Date(start).toString() !== 'Invalid Date') {
           startObject = new Date(start);
         } else {
-          console.log('availability.service.ts:32');
+          console.log('availability.service.ts:33');
           return callback(null);
         }
 
@@ -37,7 +38,7 @@ class AvailabilityService {
         if (end && new Date(end).toString() !== 'Invalid Date') {
           endObject = new Date(end);
         } else {
-          console.log('availability.service.ts:40');
+          console.log('availability.service.ts:41');
           return callback(null);
         }
 
