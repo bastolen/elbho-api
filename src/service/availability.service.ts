@@ -10,7 +10,13 @@ class AvailabilityService {
     async.eachLimit(
       availabilities,
       10,
-      (availability: any, callback) => {
+      (request: any, callback) => {
+        let availability;
+        if (typeof request === 'string') {
+          availability = JSON.parse(request);
+        } else {
+          availability = { ...request };
+        }
         const { date, start, end } = availability;
         if (!date || !start || !end) {
           return callback(null);
