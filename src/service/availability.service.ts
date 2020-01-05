@@ -10,12 +10,15 @@ class AvailabilityService {
     async.eachLimit(
       availabilities,
       10,
-      (availability: any, callback) => {
-        console.log('availability.service.ts:14 | : ', availability.start);
-        console.log('availability.service.ts:15 | : ', typeof availability);
+      (request: any, callback) => {
+        let availability;
+        if (typeof request === 'string') {
+          availability = JSON.parse(request);
+        } else {
+          availability = { ...request };
+        }
         const { date, start, end } = availability;
         if (!date || !start || !end) {
-          console.log('availability.service.ts:17');
           return callback(null);
         }
 
@@ -23,7 +26,6 @@ class AvailabilityService {
         if (date && new Date(date).toString() !== 'Invalid Date') {
           dateObject = new Date(date);
         } else {
-          console.log('availability.service.ts:25');
           return callback(null);
         }
 
@@ -31,7 +33,6 @@ class AvailabilityService {
         if (start && new Date(start).toString() !== 'Invalid Date') {
           startObject = new Date(start);
         } else {
-          console.log('availability.service.ts:33');
           return callback(null);
         }
 
@@ -39,7 +40,6 @@ class AvailabilityService {
         if (end && new Date(end).toString() !== 'Invalid Date') {
           endObject = new Date(end);
         } else {
-          console.log('availability.service.ts:41');
           return callback(null);
         }
 
