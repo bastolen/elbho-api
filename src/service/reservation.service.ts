@@ -34,7 +34,7 @@ class ReservationService {
             const nEndTime = reservation.end.getTime();
             const startCheck =
               nStartTime >= rStartTime && nStartTime <= rEndTime;
-            const endCheck = nEndTime >= nStartTime && nEndTime <= rEndTime;
+            const endCheck = nEndTime >= rStartTime && nEndTime <= rEndTime;
             if (startCheck || endCheck) {
               vehicleFree = false;
             }
