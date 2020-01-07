@@ -21,10 +21,11 @@ class ReservationService {
           }
           // Get reservations for the vehicle for the day
 
-          const dateStart = new Date(reservation.date.setUTCHours(0, 0, 0, 0));
           const dateEnd = new Date(
             reservation.date.setUTCHours(23, 59, 59, 999)
           );
+
+          const dateStart = new Date(reservation.date.setUTCHours(0, 0, 0, 0));
           const dateFilter = { $gte: dateStart, $lte: dateEnd };
           Reservation.find(
             {
