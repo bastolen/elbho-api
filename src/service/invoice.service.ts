@@ -6,10 +6,11 @@ import * as path from 'path';
 import { Invoice } from '../model';
 
 class InvoiceService {
-  static addInvoice(advisor, date, fileName, file, cb) {
+  static addInvoice(advisor, date: Date, fileName, file, cb) {
     let newId;
     let newUrl;
 
+    date.setUTCHours(0, 0, 0, 0);
     async.waterfall(
       [
         callback => {

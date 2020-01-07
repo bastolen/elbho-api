@@ -2,7 +2,16 @@ import * as async from 'async';
 import { Reservation, Vehicle } from '../model';
 
 class ReservationService {
-  static createReservation(reservation, cb) {
+  static createReservation(
+    reservation: {
+      vehicle: string;
+      advisor: string;
+      date: Date;
+      start: Date;
+      end: Date;
+    },
+    cb
+  ) {
     async.waterfall(
       [
         callback => Vehicle.findById(reservation.vehicle, callback).lean(),
@@ -11,10 +20,16 @@ class ReservationService {
             return callback('vehicle not found');
           }
           // Get reservations for the vehicle for the day
+
+          const dateStart = new Date(reservation.date.setUTCHours(0, 0, 0, 0));
+          const dateEnd = new Date(
+            reservation.date.setUTCHours(23, 59, 59, 999)
+          );
+          const dateFilter = { $gte: dateStart, $lte: dateEnd };
           Reservation.find(
             {
               vehicle: reservation.vehicle,
-              date: reservation.date,
+              date: dateFilter,
             },
             callback
           ).lean();
@@ -22,7 +37,7 @@ class ReservationService {
         (result, callback) => {
           // Check if the vehicle has reservations
           const reservations = [...result];
-          if (reservation.length === 0) {
+          if (reservations.length === 0) {
             return callback(null, true);
           }
           let vehicleFree = true;
@@ -52,9 +67,17 @@ class ReservationService {
   }
 
   static getVehiclesWithReservations(filter, cb) {
+    let filterObject = { ...filter };
+    if (filter && filter.date) {
+      const dateStart = new Date(filter.date.setUTCHours(0, 0, 0, 0));
+      const dateEnd = new Date(filter.date.setUTCHours(23, 59, 59, 999));
+      const date = { $gte: dateStart, $lte: dateEnd };
+      filterObject = { ...filter, date };
+    }
     async.parallel(
       {
-        reservations: callback => Reservation.find(filter, callback).lean(),
+        reservations: callback =>
+          Reservation.find(filterObject, callback).lean(),
         vehicles: callback => Vehicle.find(callback).lean(),
       },
       (err, results: { vehicles: any[]; reservations: any[] }) => {

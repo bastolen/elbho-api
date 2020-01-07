@@ -525,7 +525,6 @@ paths:
           $ref: '#/components/responses/Internal'
   /auth/reservation:
     get:
-      description: If you add both the parameters, it will return only the reservations for the 'date' parameter value. If you only add 'date', it will only return reservations for the 'date' parameter value. If you only add 'after', it will only return reservations after the 'after' parameter value. If you don't add any, it will return all the reservations. The reservations that are the result of the parameters will be added to the correct car in the response.
       tags:
         - Reservation
       security:
@@ -533,11 +532,6 @@ paths:
       parameters:
         - in: query
           name: date
-          schema:
-            type: string
-            example: '2019-12-07T17:00:46.694Z'
-        - in: query
-          name: after
           schema:
             type: string
             example: '2019-12-07T17:00:46.694Z'
