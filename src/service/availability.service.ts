@@ -25,6 +25,7 @@ class AvailabilityService {
         let dateObject: Date;
         if (date && new Date(date).toString() !== 'Invalid Date') {
           dateObject = new Date(date);
+          dateObject.setUTCHours(0, 0, 0, 0);
         } else {
           return callback(null);
         }
