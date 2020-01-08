@@ -28,8 +28,8 @@ const DBURL = process.env.DB || 'mongodb://localhost:27017/elbho';
 // MIDDLEWARE
 app.use(cors());
 app.options('*', cors());
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json({ limit: '50mb' }));
+app.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
 
 // Routes
 app.post('/login', AuthController.login);
