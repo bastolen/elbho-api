@@ -22,14 +22,6 @@ class AvailabilityService {
           return callback(null);
         }
 
-        let dateObject: Date;
-        if (date && new Date(date).toString() !== 'Invalid Date') {
-          dateObject = new Date(date);
-          dateObject.setUTCHours(0, 0, 0, 0);
-        } else {
-          return callback(null);
-        }
-
         let startObject: Date;
         if (start && new Date(start).toString() !== 'Invalid Date') {
           startObject = new Date(start);
@@ -40,6 +32,26 @@ class AvailabilityService {
         let endObject: Date;
         if (end && new Date(end).toString() !== 'Invalid Date') {
           endObject = new Date(end);
+        } else {
+          return callback(null);
+        }
+
+        let dateObject: Date;
+        if (date && new Date(date).toString() !== 'Invalid Date') {
+          dateObject = new Date(date);
+          const dateEndObject = new Date(
+            dateObject.setUTCHours(23, 59, 59, 999)
+          );
+          dateObject.setUTCHours(0, 0, 0, 0);
+
+          if (
+            dateObject.getTime() > startObject.getTime() ||
+            dateObject.getTime() > endObject.getTime() ||
+            dateEndObject.getTime() < startObject.getTime() ||
+            dateEndObject.getTime() < endObject.getTime()
+          ) {
+            return callback(null);
+          }
         } else {
           return callback(null);
         }
