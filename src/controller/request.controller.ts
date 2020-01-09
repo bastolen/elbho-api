@@ -76,10 +76,26 @@ class RequestController {
     ) {
       return res.sendStatus(400);
     }
+
+    if (new Date(startTime).toString() === 'Invalid Date') {
+      return res.sendStatus(400);
+    }
+
+    if (new Date(endTime).toString() === 'Invalid Date') {
+      return res.sendStatus(400);
+    }
+
+    const endDate = new Date(endTime);
+    const startDate = new Date(startTime);
+
+    if (endDate.getTime() > startDate.getTime()) {
+      return res.sendStatus(406);
+    }
+
     AppointmentService.newAppointment(
       {
-        startTime,
-        endTime,
+        startTime: startDate,
+        endTime: endDate,
         comment,
         address,
         contactPersonName,

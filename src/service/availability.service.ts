@@ -44,6 +44,10 @@ class AvailabilityService {
           return callback(null);
         }
 
+        if (startObject.getTime() > endObject.getTime()) {
+          return callback(null);
+        }
+
         if (startObject.getTime() === endObject.getTime()) {
           Availability.findOneAndDelete(
             {
