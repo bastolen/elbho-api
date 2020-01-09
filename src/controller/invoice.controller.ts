@@ -16,9 +16,16 @@ class InvoiceController {
       return res.sendStatus(400);
     }
 
+    const date = new Date(invoiceDate);
+    const now = new Date();
+
+    if (date.getTime() > now.getTime()) {
+      return res.sendStatus(406);
+    }
+
     InvoiceService.addInvoice(
       advisorId,
-      new Date(invoiceDate),
+      date,
       fileName,
       file,
       (err, result) => {

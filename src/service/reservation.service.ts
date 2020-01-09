@@ -26,6 +26,16 @@ class ReservationService {
           );
 
           const dateStart = new Date(reservation.date.setUTCHours(0, 0, 0, 0));
+
+          if (
+            dateStart.getTime() > reservation.start.getTime() ||
+            dateStart.getTime() > reservation.end.getTime() ||
+            dateEnd.getTime() < reservation.start.getTime() ||
+            dateEnd.getTime() < reservation.end.getTime()
+          ) {
+            return callback('start-end-mistake');
+          }
+
           const dateFilter = { $gte: dateStart, $lte: dateEnd };
           Reservation.find(
             {

@@ -28,6 +28,11 @@ class ReservationController {
     const dateDate = new Date(date);
     const startDate = new Date(start);
     const endDate = new Date(end);
+
+    if (startDate.getTime() > endDate.getTime()) {
+      return res.sendStatus(406);
+    }
+
     const advisor = req.advisor._id;
     ReservationService.createReservation(
       {
@@ -41,6 +46,9 @@ class ReservationController {
         if (err) {
           if (err === 'used') {
             return res.status(409).send('vehicle already reserved');
+          }
+          if (err === 'start-end-mistake') {
+            return res.sendStatus(406);
           }
 
           if (err === 'vehicle not found') {
