@@ -61,7 +61,10 @@ class ReservationService {
             const startCheck =
               nStartTime >= rStartTime && nStartTime <= rEndTime;
             const endCheck = nEndTime >= rStartTime && nEndTime <= rEndTime;
-            if (startCheck || endCheck) {
+            const overlapCheck =
+              nStartTime <= rStartTime && nEndTime >= rEndTime;
+
+            if (startCheck || endCheck || overlapCheck) {
               vehicleFree = false;
             }
           });
