@@ -20,13 +20,19 @@ class AdvisorService {
     );
   }
 
-  static getById(id, cb) {
+  static getById(_id, active = true, cb) {
+    const filter: { _id; active? } = { _id };
+
+    if (active) {
+      filter.active = active;
+    }
+
     async.waterfall(
       [
-        callback => Advisor.findById(id, callback).lean(),
+        callback => Advisor.findOne(filter, callback).lean(),
         (result, callback) => {
           if (!result) {
-            return callback('not found');
+            return callback('notfound');
           }
           return callback(undefined, result);
         },

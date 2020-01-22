@@ -6,7 +6,7 @@ class AuthService {
   static login(email: string, password: string, cb) {
     async.waterfall(
       [
-        callback => Advisor.findOne({ email }, callback).lean(),
+        callback => Advisor.findOne({ email, active: true }, callback).lean(),
         (advisor, callback) => {
           if (!advisor) {
             return callback('not found');

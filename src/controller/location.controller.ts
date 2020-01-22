@@ -21,7 +21,7 @@ class LocationController {
       res.sendStatus(400);
     }
 
-    AdvisorService.getById(advisor, (err, result) => {
+    AdvisorService.getById(advisor, false, (err, result) => {
       if (err) {
         return res.sendStatus(500);
       }
