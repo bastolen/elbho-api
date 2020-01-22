@@ -79,7 +79,7 @@ class AdvisorController {
       res.sendStatus(400);
     }
 
-    AdvisorService.getById(id, (err, result) => {
+    AdvisorService.getById(id, false, (err, result) => {
       if (err) {
         if (err === 'not found') {
           return res.sendStatus(404);
