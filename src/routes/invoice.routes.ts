@@ -8,7 +8,7 @@ const app = express();
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    const dir = 'uploads';
+    const dir = [__dirname, '..', '..', 'uploads'].join('/');
     if (!fs.existsSync(dir)) {
       fs.mkdirSync(dir);
     }
