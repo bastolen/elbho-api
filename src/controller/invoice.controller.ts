@@ -4,6 +4,8 @@ import { InvoiceService } from '../service';
 class InvoiceController {
   static addInvoice(req, res) {
     if (!req.body || !req.file || !req.body.date) {
+      console.log('invoice.controller.ts:7 | : ', req.body.date);
+      console.log('invoice.controller.ts:8 | : ', req.file);
       return res.sendStatus(400);
     }
 
@@ -13,6 +15,7 @@ class InvoiceController {
     const advisorId = req.advisor._id;
 
     if (new Date(invoiceDate).toString() === 'Invalid Date') {
+      console.log('invoice.controller.ts:18 | : ', 'invalid date');
       return res.sendStatus(400);
     }
 

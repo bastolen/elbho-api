@@ -31,6 +31,7 @@ const upload = multer({
     if (mimetype && extname) {
       return cb(null, true);
     }
+    console.log('invoice.routes.ts:34 | : ', 'fileFilter');
     cb(
       `Error: File upload only supports the following filetypes - ${filetypes}`
     );
