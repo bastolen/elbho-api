@@ -18,7 +18,7 @@ class InvoiceController {
       if (
         new Date(
           invoiceDate.substring(1, invoiceDate.length - 1)
-        ).toString() !== 'Invalid Date' ||
+        ).toString() === 'Invalid Date' ||
         invoiceDate.length !== 26
       ) {
         return res.sendStatus(400);
