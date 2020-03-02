@@ -4,7 +4,6 @@ import { InvoiceService } from '../service';
 class InvoiceController {
   static addInvoice(req, res) {
     if (!req.body || !req.file || !req.body.date) {
-      console.log('invoice.controller.ts:7');
       return res.sendStatus(400);
     }
 
@@ -13,10 +12,15 @@ class InvoiceController {
     const invoiceDate = req.body.date;
     const advisorId = req.advisor._id;
 
-    console.log('invoice.controller.ts:16 | : ', invoiceDate.length);
     if (new Date(invoiceDate).toString() === 'Invalid Date') {
-      console.log('invoice.controller.ts:17 | : ', invoiceDate);
-      return res.sendStatus(400);
+      if (
+        new Date(
+          invoiceDate.substring(1, invoiceDate.length - 1)
+        ).toString() !== 'Invalid Date' ||
+        invoiceDate.length !== 26
+      ) {
+        return res.sendStatus(400);
+      }
     }
 
     const date = new Date(invoiceDate);
@@ -33,7 +37,6 @@ class InvoiceController {
       file,
       (err, result) => {
         if (err) {
-          console.log('invoice.controller.ts:35 | : ', err);
           return res.status(500).send(err);
         }
         return res.status(201).send(result);
