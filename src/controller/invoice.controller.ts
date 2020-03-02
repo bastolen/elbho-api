@@ -13,6 +13,7 @@ class InvoiceController {
     const invoiceDate = req.body.date;
     const advisorId = req.advisor._id;
 
+    console.log('invoice.controller.ts:16 | : ', invoiceDate.length);
     if (new Date(invoiceDate).toString() === 'Invalid Date') {
       console.log('invoice.controller.ts:17 | : ', invoiceDate);
       return res.sendStatus(400);
