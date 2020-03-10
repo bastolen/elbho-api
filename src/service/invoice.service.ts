@@ -70,7 +70,9 @@ class InvoiceService {
   }
 
   static getInvoicesForAdvisor(advisor, callback) {
-    Invoice.find({ advisor }, callback).lean();
+    Invoice.find({ advisor }, callback)
+      .sort({ date: -1 })
+      .lean();
   }
 }
 
