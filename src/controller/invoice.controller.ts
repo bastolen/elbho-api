@@ -12,11 +12,23 @@ class InvoiceController {
     const invoiceDate = req.body.date;
     const advisorId = req.advisor._id;
 
+    let dateString;
+
     if (new Date(invoiceDate).toString() === 'Invalid Date') {
-      return res.sendStatus(400);
+      if (
+        new Date(
+          invoiceDate.substring(1, invoiceDate.length - 1)
+        ).toString() === 'Invalid Date' ||
+        invoiceDate.length !== 26
+      ) {
+        return res.sendStatus(400);
+      }
+      dateString = invoiceDate.substring(1, invoiceDate.length - 1);
+    } else {
+      dateString = invoiceDate;
     }
 
-    const date = new Date(invoiceDate);
+    const date = new Date(dateString);
     const now = new Date();
 
     if (date.getTime() > now.getTime()) {

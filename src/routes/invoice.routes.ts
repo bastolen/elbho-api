@@ -8,7 +8,7 @@ const app = express();
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    const dir = 'uploads';
+    const dir = [__dirname, '..', '..', 'uploads'].join('/');
     if (!fs.existsSync(dir)) {
       fs.mkdirSync(dir);
     }
@@ -31,6 +31,7 @@ const upload = multer({
     if (mimetype && extname) {
       return cb(null, true);
     }
+
     cb(
       `Error: File upload only supports the following filetypes - ${filetypes}`
     );
