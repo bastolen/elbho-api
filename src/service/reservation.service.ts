@@ -59,8 +59,8 @@ class ReservationService {
             const nStartTime = reservation.start.getTime();
             const nEndTime = reservation.end.getTime();
             const startCheck =
-              nStartTime >= rStartTime && nStartTime <= rEndTime;
-            const endCheck = nEndTime >= rStartTime && nEndTime <= rEndTime;
+              nStartTime >= rStartTime && nStartTime < rEndTime;
+            const endCheck = nEndTime > rStartTime && nEndTime <= rEndTime;
             const overlapCheck =
               nStartTime <= rStartTime && nEndTime >= rEndTime;
 
@@ -70,11 +70,11 @@ class ReservationService {
           });
 
           if (vehicleFree) {
-            return callback(null, true);
+            return callback(null);
           }
           return callback('used');
         },
-        (result, callback) => new Reservation(reservation).save(callback),
+        callback => new Reservation(reservation).save(callback),
       ],
       cb
     );
