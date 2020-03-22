@@ -49,7 +49,7 @@ class ReservationService {
           // Check if the vehicle has reservations
           const reservations = [...result];
           if (reservations.length === 0) {
-            return callback(null, true);
+            return callback(null);
           }
           let vehicleFree = true;
           // Check if the reservations are in the same time frame
