@@ -17,6 +17,7 @@ class VehicleController {
       location,
       image,
       transmission,
+      city,
     } = req.body;
 
     if (
@@ -25,13 +26,14 @@ class VehicleController {
       !model ||
       !location ||
       !image ||
-      !transmission
+      !transmission ||
+      !city
     ) {
       return res.sendStatus(400);
     }
 
     VehicleService.create(
-      { licensePlate, brand, model, location, image, transmission },
+      { licensePlate, brand, model, location, image, transmission, city },
       (err, result) => {
         if (err) {
           if (err.code === 11000) {

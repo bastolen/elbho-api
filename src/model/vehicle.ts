@@ -7,6 +7,7 @@ const schema = new mongoose.Schema(
     transmission: { type: String, default: 'Automaat' },
     model: { type: String },
     location: { type: String },
+    city: { type: String },
     image: { type: String },
   },
   {
