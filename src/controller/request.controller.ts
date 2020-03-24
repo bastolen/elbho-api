@@ -88,7 +88,7 @@ class RequestController {
     const endDate = new Date(endTime);
     const startDate = new Date(startTime);
 
-    if (endDate.getTime() > startDate.getTime()) {
+    if (endDate.getTime() < startDate.getTime()) {
       return res.sendStatus(406);
     }
 
